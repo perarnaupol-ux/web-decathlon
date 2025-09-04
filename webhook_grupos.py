@@ -165,7 +165,7 @@ template = '''
 <head>
     <meta charset="UTF-8">
     <title>Marcador de Grupos</title>
-    <meta http-equiv="refresh" content="20">
+    <meta http-equiv="refresh" content="60">
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; }
         body::before {
@@ -221,10 +221,26 @@ template = '''
     </div>
     <div id="main-content" style="display:none;">
         <div class="container">
-            <div style="text-align:center; margin-bottom: 18px; position: relative;">
-                <h1 style="font-size:2.3em; color:#0d47a1; margin-bottom: 8px; margin-top: 0;">Decathlon Girona</h1>
-                <div style="font-size:1.3em; color:#fff; background:#0d47a1; display:inline-block; padding:7px 22px; border-radius:18px; font-weight:bold; box-shadow:0 2px 8px #888;">4 equipos, 1 solo objetivo</div>
-                <div style="position: absolute; top: 0; right: 0; font-size: 1.1em; color: #0d47a1; background: #fff; padding: 7px 18px; border-radius: 0 0 0 18px; font-weight: bold; box-shadow: 0 2px 8px #bbb;">Del 01/09 al 31/12</div>
+            <div style="width:100%; display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin-bottom: 18px; gap: 0;">
+                <div style="flex:0 0 auto; display:flex; align-items:center;">
+                    <img src="/static/fotos/decathlon3.jpg" alt="Decathlon 3" style="width: 220px; max-width: 40vw; height: auto; border-radius: 18px; box-shadow: 0 4px 18px #888; background: #fff; padding: 6px; margin-right: 0;">
+                </div>
+                <div style="flex:1 1 0; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:0;">
+                    <h1 style="font-size:2.3em; color:#0d47a1; margin-bottom: 8px; margin-top: 0; text-align:center; width:100%;">Decathlon Girona</h1>
+                    <div style="font-size:1.05em; color:#fff; background:#0d47a1; display:inline-block; padding:5px 14px; border-radius:14px; font-weight:bold; box-shadow:0 2px 8px #888; text-align:center; max-width:320px; width:auto;">4 equipos, 1 solo objetivo</div>
+                </div>
+                <div style="flex:0 0 auto; display:flex; align-items:flex-start; padding-top:8px;">
+                    <div style="font-size: 1.05em; color: #0d47a1; background: #fff; padding: 5px 14px; border-radius: 0 0 0 14px; font-weight: bold; box-shadow: 0 2px 8px #bbb; white-space:nowrap;">Del 01/09 al 31/12</div>
+                </div>
+            </div>
+            <div style="text-align:center; margin-bottom: 22px;">
+                <div style="display:inline-block; background:#fff; color:#0d47a1; border-radius:14px; padding:14px 24px; box-shadow:0 1px 6px #bbb; max-width:600px;">
+                    <div style="font-size:1.2em; font-weight:bold; margin-bottom:6px;">¿Qué es el Ranking DIS?</div>
+                    <div style="font-size:1em;">
+                        Es una competencia en la que formarás parte de un equipo compuesto por colaboradores de distintos universos, unidos por un animal.<br>
+                        ¡Sé el mejor y defiende el animal de tu equipo! Al final, habrá recompensa para los ganadores.
+                    </div>
+                </div>
             </div>
             <div class="grupos-flex">
             {% set max_puntos = puntos.values()|max %}
@@ -252,14 +268,24 @@ template = '''
             </div>
             <div class="separador"></div>
             <h2>MARKET PLACE</h2>
+            <div style="text-align:center; margin-bottom: 16px;">
+                <span style="font-size:1.15em; color:#0d47a1; background:#fff; display:inline-block; padding:6px 18px; border-radius:14px; font-weight:bold; box-shadow:0 1px 4px #bbb;">Nuestro objetivo: ser número uno de Market Place en tiendas Decathlon España.</span>
+            </div>
             <div class="grupos-flex">
+            {% set max_puntos_mp = puntos_mp.values()|max %}
             {% for grupo, punto in puntos_mp.items() %}
-                <div class="grupo">
-                    <div class="grupo-nombre"><b>{{ grupo }}:</b> {{ punto }}</div>
+                <div class="grupo{% if punto == max_puntos_mp and punto > 0 %} grupo-lider{% endif %}">
+                    <div class="grupo-nombre">
+                        <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
+                        <b>{{ grupo }}:</b> {{ punto }}
+                        {% if punto == max_puntos_mp and punto > 0 %}
+                            <span title="Líder" style="margin-left:6px; color:gold; font-size:1.2em;">&#x1F451;</span>
+                        {% endif %}
+                    </div>
                 </div>
             {% endfor %}
             </div>
-            <p style="text-align:center;color:#888;">Actualiza cada 20 segundos</p>
+            <p style="text-align:center;color:#888;">Actualiza cada 60 segundos</p>
         </div>
     </div>
 </body>
