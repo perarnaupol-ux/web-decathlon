@@ -57,7 +57,7 @@ personas = {
     "David ORTIZ": "Elefantes",
     "Enric SANTACATALINA": "Elefantes",
     "Marti BAGUE": "Elefantes",
-    "Kevin ADRIAN": "Elefantes",
+    "Kevin Adrian PESANTES": "Elefantes",
     "Aya": "Elefantes",
     "Paula BASH": "Elefantes",
     "Sandra SOARES": "Elefantes",
