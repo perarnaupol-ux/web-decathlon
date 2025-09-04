@@ -28,6 +28,7 @@ def leer_grupos_desde_imagen(img_path):
 
 personas = {
     # Tiburones
+    "Paola HERNANDEZ": "Tiburones",
     "Guillem SUBILS": "Tiburones",
     "Adria BORRELL": "Tiburones",
     "Carles LOPEZ": "Tiburones",
@@ -46,8 +47,8 @@ personas = {
     "Lesley CAICEDO": "Tiburones",
     "Izan SOLER": "Tiburones",
     "Pol PERARNAU": "Tiburones",
-    "Paola HERNANDEZ": "Tiburones",
     # Elefantes
+    "Nerea CASTILLO": "Elefantes",
     "Arnau COSTA": "Elefantes",
     "Aina FUENTES": "Elefantes",
     "Estell COLLADO": "Elefantes",
@@ -65,8 +66,8 @@ personas = {
     "Patricia FENOLL": "Elefantes",
     "David MARTINEZ": "Elefantes",
     "Francesc SANZ": "Elefantes",
-    "Nerea CASTILLO": "Elefantes",
     # Dragones
+    "Visi LOPEZ": "Dragones",
     "Faina VALISHINA": "Dragones",
     "Anna CODINA": "Dragones",
     "Alba CORREAL": "Dragones",
@@ -84,7 +85,6 @@ personas = {
     "Anna MORELL": "Dragones",
     "Judit FRIGOLA": "Dragones",
     "Esperanza Maria MUNTADAS": "Dragones",
-    "Visi LOPEZ": "Dragones",
     # Escorpiones
     "Jota ZAMORA": "Escorpiones",
     "Natalia MANCUSO": "Escorpiones",
