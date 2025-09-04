@@ -168,46 +168,76 @@ template = '''
     <meta http-equiv="refresh" content="20">
     <style>
         body { font-family: Arial, sans-serif; background: #f4f4f4; }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: url('/static/fotos/decathlon2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.60;
+            z-index: -1;
+        }
         .container { max-width: 1200px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
-        h2 { text-align: center; }
         .grupos-flex { display: flex; flex-wrap: wrap; justify-content: space-around; }
         .grupo { flex: 1 1 250px; min-width: 250px; max-width: 300px; margin: 10px; background: #e9f5ff; border-radius: 8px; padding: 15px; box-shadow: 0 0 5px #bbb; }
         .grupo-nombre { font-size: 1.3em; color: #333; margin-bottom: 5px; text-align: center; }
         .personas { margin-left: 10px; color: #555; text-align: left; }
         .destacado { font-size: 1.15em; font-weight: bold; color: #1a237e; }
         .separador { border-top: 2px solid #aaa; margin: 30px 0 20px 0; }
+        .splash { display: flex; align-items: center; justify-content: center; height: 90vh; }
+        .splash img { max-width: 80vw; max-height: 80vh; border-radius: 16px; box-shadow: 0 0 20px #888; }
     </style>
+    <script>
+        function hideSplash() {
+            document.getElementById('splash').style.display = 'none';
+            document.getElementById('main-content').style.display = 'block';
+            // Guardar en sessionStorage que ya se mostró el splash
+            sessionStorage.setItem('splashShown', '1');
+        }
+        window.onload = function() {
+            // Solo mostrar splash si no se ha mostrado en esta sesión
+            if (!sessionStorage.getItem('splashShown')) {
+                setTimeout(hideSplash, 3000);
+            } else {
+                hideSplash();
+            }
+        };
+    </script>
 </head>
 <body>
-    <div class="container">
-        <h2>Marcador de Grupos</h2>
-        <div class="grupos-flex">
-        {% for grupo, punto in puntos.items() %}
-            <div class="grupo">
-                <div class="grupo-nombre"><b>{{ grupo }}:</b> {{ punto }}</div>
-                <div class="personas">
-                    {% set miembros = personas_ordenadas(grupo) %}
-                    {% for persona in miembros %}
-                        {% if loop.index0 == 0 %}
-                            <span class="destacado">{{ persona }}</span><br>
-                        {% else %}
-                            {{ persona }}<br>
-                        {% endif %}
-                    {% endfor %}
+    <div id="splash" class="splash">
+        <img src="/static/fotos/decathlon1.jpg" alt="Decathlon" />
+    </div>
+    <div id="main-content" style="display:none;">
+        <div class="container">
+            <div class="grupos-flex">
+            {% for grupo, punto in puntos.items() %}
+                <div class="grupo">
+                    <div class="grupo-nombre"><b>{{ grupo }}:</b> {{ punto }}</div>
+                    <div class="personas">
+                        {% set miembros = personas_ordenadas(grupo) %}
+                        {% for persona in miembros %}
+                            {% if loop.index0 == 0 %}
+                                <span class="destacado">{{ persona }}</span><br>
+                            {% else %}
+                                {{ persona }}<br>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
                 </div>
+            {% endfor %}
             </div>
-        {% endfor %}
-        </div>
-        <div class="separador"></div>
-        <h2>MARKET PLACE</h2>
-        <div class="grupos-flex">
-        {% for grupo, punto in puntos_mp.items() %}
-            <div class="grupo">
-                <div class="grupo-nombre"><b>{{ grupo }}:</b> {{ punto }}</div>
+            <div class="separador"></div>
+            <h2>MARKET PLACE</h2>
+            <div class="grupos-flex">
+            {% for grupo, punto in puntos_mp.items() %}
+                <div class="grupo">
+                    <div class="grupo-nombre"><b>{{ grupo }}:</b> {{ punto }}</div>
+                </div>
+            {% endfor %}
             </div>
-        {% endfor %}
+            <p style="text-align:center;color:#888;">Actualiza cada 20 segundos</p>
         </div>
-        <p style="text-align:center;color:#888;">Actualiza cada 20 segundos</p>
     </div>
 </body>
 </html>
