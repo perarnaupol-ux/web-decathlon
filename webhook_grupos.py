@@ -28,7 +28,7 @@ def leer_grupos_desde_imagen(img_path):
 
 personas = {
     # Tiburones
-    "Paola HERNANDEZ": "Tiburones",
+    "Paola Andrea HERNANDEZ": "Tiburones",
     "Guillem SUBILS": "Tiburones",
     "Adria BORRELL": "Tiburones",
     "Carles LOPEZ": "Tiburones",
@@ -44,16 +44,16 @@ personas = {
     "Blanca MARTINEZ": "Tiburones",
     "Abril JOFRE": "Tiburones",
     "Eudald BLANCH": "Tiburones",
-    "Lesley CAICEDO": "Tiburones",
+    "Lesley Caicedo": "Tiburones",
     "Izan SOLER": "Tiburones",
     "Pol PERARNAU": "Tiburones",
     # Elefantes
-    "Nerea CASTILLO": "Elefantes",
+    "Nerea Castillo": "Elefantes",
     "Arnau COSTA": "Elefantes",
     "Aina FUENTES": "Elefantes",
     "Estell COLLADO": "Elefantes",
     "Gemma MARTI": "Elefantes",
-    "Marcos GARCIA": "Elefantes",
+    "Marcos Garcia": "Elefantes",
     "David ORTIZ": "Elefantes",
     "Enric SANTACATALINA": "Elefantes",
     "Marti BAGUE": "Elefantes",
@@ -94,14 +94,14 @@ personas = {
     "Julia JIMENEZ": "Escorpiones",
     "Joel LOPEZ": "Escorpiones",
     "Roc CAMPS": "Escorpiones",
-    "Mar ROURA": "Escorpiones",
+    "Mar Roura": "Escorpiones",
     "Nill OLLER": "Escorpiones",
-    "Jordi MAYO": "Escorpiones",
+    "JORDI MAYO": "Escorpiones",
     "Marc SANCHEZ": "Escorpiones",
     "Carme PELAEZ": "Escorpiones",
     "Arnau LOPEZ": "Escorpiones",
-    "Alvaro JIMENEZ": "Escorpiones",
-    "Francisco FERNANDEZ": "Escorpiones",
+    "Álvaro Jiménez": "Escorpiones",
+    "Francisco FERNÁNDEZ": "Escorpiones",
     "Basma BACHIRI": "Escorpiones",
     "Adam KHALI": "Escorpiones"
 }
