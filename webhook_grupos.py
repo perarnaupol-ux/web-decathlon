@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template_string
 import threading
+from datetime import datetime
 import pytesseract
 from PIL import Image
 import os
@@ -310,17 +311,23 @@ def webhook():
     user_name = data.get("user", {}).get("displayName", "")
     text = data.get("text", "")
     respuesta = "Mensaje recibido."
-    # Permitir coincidencia parcial de '+1' y '+1 mp' en cualquier parte del texto
-    if "+1 mp" in text.lower() and user_name in personas:
-        equipo = personas[user_name]
-        puntos_mp[equipo] += 1
-        guardar_puntos_mp()
-        respuesta = f"¡Punto MP para {equipo}! Total: {puntos_mp[equipo]}"
-    elif "+1" in text.lower() and user_name in personas:
-        equipo = personas[user_name]
-        puntos[equipo] += 1
-        guardar_puntos()
-        respuesta = f"¡Punto para {equipo}! Total: {puntos[equipo]}"
+    # Solo sumar puntos si la fecha es igual o posterior al 01/09
+    hoy = datetime.now()
+    inicio = datetime(hoy.year, 9, 1)
+    if hoy < inicio:
+        respuesta = "La competición empieza el 01/09. Los puntos aún no se pueden sumar."
+    else:
+        # Permitir coincidencia parcial de '+1' y '+1 mp' en cualquier parte del texto
+        if "+1 mp" in text.lower() and user_name in personas:
+            equipo = personas[user_name]
+            puntos_mp[equipo] += 1
+            guardar_puntos_mp()
+            respuesta = f"¡Punto MP para {equipo}! Total: {puntos_mp[equipo]}"
+        elif "+1" in text.lower() and user_name in personas:
+            equipo = personas[user_name]
+            puntos[equipo] += 1
+            guardar_puntos()
+            respuesta = f"¡Punto para {equipo}! Total: {puntos[equipo]}"
     return jsonify({"text": respuesta})
 
 if __name__ == "__main__":
