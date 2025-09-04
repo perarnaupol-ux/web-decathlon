@@ -256,10 +256,12 @@ template = '''
                     <div class="personas">
                         {% set miembros = personas_ordenadas(grupo) %}
                         {% for persona in miembros %}
+                            {% set partes = persona.split() %}
+                            {% set nombre_formateado = partes | map('lower') | map('capitalize') | join(' ') %}
                             {% if loop.index0 == 0 %}
-                                <span class="destacado">{{ persona }}</span><br>
+                                <span class="destacado">{{ nombre_formateado }}</span><br>
                             {% else %}
-                                {{ persona }}<br>
+                                {{ nombre_formateado }}<br>
                             {% endif %}
                         {% endfor %}
                     </div>
