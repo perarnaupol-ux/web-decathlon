@@ -103,7 +103,7 @@ personas = {
     "Álvaro Jiménez": "Escorpiones",
     "Francisco FERNÁNDEZ": "Escorpiones",
     "Basma BACHIRI": "Escorpiones",
-    "Adam KHALI": "Escorpiones"
+    "Adam AABACHRIM": "Escorpiones"
 }
 
 # Cargar puntos desde archivo si existe
@@ -256,8 +256,12 @@ template = '''
                     <div class="personas">
                         {% set miembros = personas_ordenadas(grupo) %}
                         {% for persona in miembros %}
-                            {% set partes = persona.split() %}
-                            {% set nombre_formateado = partes | map('lower') | map('capitalize') | join(' ') %}
+                            {% if persona == 'Adam AABACHRIM' %}
+                                {% set nombre_formateado = 'Adam Aabachrim' %}
+                            {% else %}
+                                {% set partes = persona.split() %}
+                                {% set nombre_formateado = partes | map('lower') | map('capitalize') | join(' ') %}
+                            {% endif %}
                             {% if loop.index0 == 0 %}
                                 <span class="destacado">{{ nombre_formateado }}</span><br>
                             {% else %}
