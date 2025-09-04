@@ -210,6 +210,11 @@ template = '''
     </div>
     <div id="main-content" style="display:none;">
         <div class="container">
+            <div style="text-align:center; margin-bottom: 18px; position: relative;">
+                <h1 style="font-size:2.3em; color:#0d47a1; margin-bottom: 8px; margin-top: 0;">Decathlon Girona</h1>
+                <div style="font-size:1.3em; color:#fff; background:#0d47a1; display:inline-block; padding:7px 22px; border-radius:18px; font-weight:bold; box-shadow:0 2px 8px #888;">4 equipos, 1 solo objetivo</div>
+                <div style="position: absolute; top: 0; right: 0; font-size: 1.1em; color: #0d47a1; background: #fff; padding: 7px 18px; border-radius: 0 0 0 18px; font-weight: bold; box-shadow: 0 2px 8px #bbb;">Del 01/09 al 31/12</div>
+            </div>
             <div class="grupos-flex">
             {% for grupo, punto in puntos.items() %}
                 <div class="grupo">
