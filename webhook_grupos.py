@@ -33,25 +33,25 @@ personas = {
     "Carles Lopez": "Tiburones",
     "Tomas Favilla": "Tiburones",
     "Luz Quiroz": "Tiburones",
-    "Maria jose soto": "Tiburones",
+    "Maria Jose Soto": "Tiburones",
     "Joana Planas": "Tiburones",
     "Alex Sanchez": "Tiburones",
     "Ferran puente": "Tiburones",
     "Adrian Portela": "Tiburones",
-    "Agustin gutierrez": "Tiburones",
+    "Agustin Gutierrez": "Tiburones",
     "Jordi Moline": "Tiburones",
-    "Blanca martinez": "Tiburones",
+    "Blanca Martinez": "Tiburones",
     "Abril Jofre": "Tiburones",
     "Eudald Blanch": "Tiburones",
     "Lesley Caicedo": "Tiburones",
-    "Izan soler": "Tiburones",
+    "Izan Soler": "Tiburones",
     "Pol Perarnau": "Tiburones",
     "Paola Hernandez": "Tiburones",
     # Elefantes
-    "Arnau costa": "Elefantes",
+    "Arnau Costa": "Elefantes",
     "Aina Fuentes": "Elefantes",
     "Estell Collado": "Elefantes",
-    "Gemma marti": "Elefantes",
+    "Gemma Marti": "Elefantes",
     "Marcos Garcia": "Elefantes",
     "David Ortiz": "Elefantes",
     "Enric Santacatalina": "Elefantes",
@@ -96,12 +96,12 @@ personas = {
     "Roc Camps": "Escorpiones",
     "Mar Roura": "Escorpiones",
     "Nill Oller": "Escorpiones",
-    "Jordi mayo": "Escorpiones",
-    "Marc sanchez": "Escorpiones",
-    "Carme pelaez": "Escorpiones",
-    "Arnau lopez": "Escorpiones",
+    "Jordi Mayo": "Escorpiones",
+    "Marc Sanchez": "Escorpiones",
+    "Carme Pelaez": "Escorpiones",
+    "Arnau Lopez": "Escorpiones",
     "Alvaro Jimenez": "Escorpiones",
-    "Francisco Fermandez": "Escorpiones",
+    "Francisco Fernandez": "Escorpiones",
     "Basma Bachiri": "Escorpiones",
     "Adam Khali": "Escorpiones"
 }
@@ -174,18 +174,29 @@ template = '''
             top: 0; left: 0; right: 0; bottom: 0;
             background: url('/static/fotos/decathlon2.jpg') no-repeat center center fixed;
             background-size: cover;
-            opacity: 0.60;
+            opacity: 0.45;
             z-index: -1;
         }
         .container { max-width: 1200px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
         .grupos-flex { display: flex; flex-wrap: wrap; justify-content: space-around; }
-        .grupo { flex: 1 1 250px; min-width: 250px; max-width: 300px; margin: 10px; background: #e9f5ff; border-radius: 8px; padding: 15px; box-shadow: 0 0 5px #bbb; }
-        .grupo-nombre { font-size: 1.3em; color: #333; margin-bottom: 5px; text-align: center; }
+        .grupo { flex: 1 1 250px; min-width: 250px; max-width: 300px; margin: 10px; background: #e9f5ff; border-radius: 8px; padding: 15px; box-shadow: 0 0 5px #bbb; position: relative; }
+        .grupo-lider { border: 3px solid gold; box-shadow: 0 0 18px #ffd700; }
+        .grupo-nombre { font-size: 1.3em; color: #333; margin-bottom: 5px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+        .grupo-logo { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #fff; border: 1px solid #ccc; margin-right: 4px; }
         .personas { margin-left: 10px; color: #555; text-align: left; }
         .destacado { font-size: 1.15em; font-weight: bold; color: #1a237e; }
         .separador { border-top: 2px solid #aaa; margin: 30px 0 20px 0; }
         .splash { display: flex; align-items: center; justify-content: center; height: 90vh; }
         .splash img { max-width: 80vw; max-height: 80vh; border-radius: 16px; box-shadow: 0 0 20px #888; }
+        @media (max-width: 900px) {
+            .container { max-width: 98vw; padding: 6px; }
+            .grupos-flex { flex-direction: column; align-items: center; }
+            .grupo { max-width: 98vw; min-width: 220px; }
+        }
+        @media (max-width: 600px) {
+            .grupo-nombre { font-size: 1.1em; }
+            .grupo-logo { width: 28px; height: 28px; }
+        }
     </style>
     <script>
         function hideSplash() {
@@ -216,9 +227,16 @@ template = '''
                 <div style="position: absolute; top: 0; right: 0; font-size: 1.1em; color: #0d47a1; background: #fff; padding: 7px 18px; border-radius: 0 0 0 18px; font-weight: bold; box-shadow: 0 2px 8px #bbb;">Del 01/09 al 31/12</div>
             </div>
             <div class="grupos-flex">
+            {% set max_puntos = puntos.values()|max %}
             {% for grupo, punto in puntos.items() %}
-                <div class="grupo">
-                    <div class="grupo-nombre"><b>{{ grupo }}:</b> {{ punto }}</div>
+                <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
+                    <div class="grupo-nombre">
+                        <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
+                        <b>{{ grupo }}:</b> {{ punto }}
+                        {% if punto == max_puntos and punto > 0 %}
+                            <span title="Líder" style="margin-left:6px; color:gold; font-size:1.2em;">&#x1F451;</span>
+                        {% endif %}
+                    </div>
                     <div class="personas">
                         {% set miembros = personas_ordenadas(grupo) %}
                         {% for persona in miembros %}
