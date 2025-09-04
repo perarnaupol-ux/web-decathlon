@@ -202,12 +202,12 @@ template = '''
         function hideSplash() {
             document.getElementById('splash').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
-            // Guardar en sessionStorage que ya se mostró el splash
-            sessionStorage.setItem('splashShown', '1');
+            // Guardar en localStorage que ya se mostró el splash
+            localStorage.setItem('splashShown', '1');
         }
         window.onload = function() {
-            // Solo mostrar splash si no se ha mostrado en esta sesión
-            if (!sessionStorage.getItem('splashShown')) {
+            // Solo mostrar splash si no se ha mostrado en este navegador
+            if (!localStorage.getItem('splashShown')) {
                 setTimeout(hideSplash, 3000);
             } else {
                 hideSplash();
