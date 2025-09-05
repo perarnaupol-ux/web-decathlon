@@ -41,82 +41,163 @@ def leer_grupos_desde_imagen(img_path):
 
 personas = {
     # Tiburones
-    "Paola Andrea HERNANDEZ": "Tiburones",
-    "Guillem SUBILS": "Tiburones",
-    "Adria BORRELL": "Tiburones",
-    "Carles LOPEZ": "Tiburones",
-    "Tomas FAVILLA": "Tiburones",
-    "Luz QUIROZ": "Tiburones",
-    "Maria Jose SOTO": "Tiburones",
-    "Joana PLANAS": "Tiburones",
-    "Alex SANCHEZ": "Tiburones",
-    "Ferran PUENTE": "Tiburones",
-    "Adrian PORTELA": "Tiburones",
-    "Agustin GUTIERREZ": "Tiburones",
-    "Jordi MOLINE": "Tiburones",
-    "Blanca MARTINEZ": "Tiburones",
-    "Abril JOFRE": "Tiburones",
-    "Eudald BLANCH": "Tiburones",
-    "Lesley Caicedo": "Tiburones",
-    "Izan SOLER": "Tiburones",
-    "Pol PERARNAU": "Tiburones",
+    "paolaandrea.hernandez@decathlon.com": "Tiburones",
+    "guillem.subils@decathlon.com": "Tiburones",
+    "adria.borrell@decathlon.com": "Tiburones",
+    "carles.lopez@decathlon.com": "Tiburones",
+    "tomas.favilla@decathlon.com": "Tiburones",
+    "luzmaria.quiroz@decathlon.com": "Tiburones",
+    "maria.soto@decathlon.com": "Tiburones",
+    "joana.planas@decathlon.com": "Tiburones",
+    "alex.sanchez@decathlon.com": "Tiburones",
+    "ferran.puente@decathlon.com": "Tiburones",
+    "adrian.portela@decathlon.com": "Tiburones",
+    "agustin.gutierrez@decathlon.com": "Tiburones",
+    "jordi.moline@decathlon.com": "Tiburones",
+    "blanca.martinez@decathlon.com": "Tiburones",
+    "abril.jofre@decathlon.com": "Tiburones",
+    "eudald.blanch@decathlon.com": "Tiburones",
+    "lesley.caicedo@decathlon.com": "Tiburones",
+    "izan.soler@decathlon.com": "Tiburones",
+    "pol.perarnau@decathlon.com": "Tiburones",
     # Elefantes
-    "Nerea Castillo": "Elefantes",
-    "Arnau COSTA": "Elefantes",
-    "Aina FUENTES": "Elefantes",
-    "Estell COLLADO": "Elefantes",
-    "Gemma MARTI": "Elefantes",
-    "Marcos Garcia": "Elefantes",
-    "David ORTIZ": "Elefantes",
-    "Enric SANTACATALINA": "Elefantes",
-    "Marti BAGUE": "Elefantes",
-    "Kevin Adrian PESANTES": "Elefantes",
-    "Aya": "Elefantes",
-    "Paula BASH": "Elefantes",
-    "Sandra SOARES": "Elefantes",
-    "Manuela VARGAS": "Elefantes",
-    "Miriam PEÑA": "Elefantes",
-    "Patricia FENOLL": "Elefantes",
-    "David MARTINEZ": "Elefantes",
-    "Francesc SANZ": "Elefantes",
+    "nerea.castillo@decathlon.com": "Elefantes",
+    "arnau.costa@decathlon.com": "Elefantes",
+    "aina.fuentes@decathlon.com": "Elefantes",
+    "estell.collado@decathlon.com": "Elefantes",
+    "gemma.marti@decathlon.com": "Elefantes",
+    "marcos.garcia2@decathlon.com": "Elefantes",
+    "david.ortiz@decathlon.com": "Elefantes",
+    "enric.santacatalina@decathlon.com": "Elefantes",
+    "marti.bague@decathlon.com": "Elefantes",
+    "kevinadrian.pesantes@decathlon.com": "Elefantes",
+    "aya@decathlon.com": "Elefantes",
+    "paula.bash@decathlon.com": "Elefantes",
+    "sandra.soares@decathlon.com": "Elefantes",
+    "manuela.vargas@decathlon.com": "Elefantes",
+    "miriam.pena@decathlon.com": "Elefantes",
+    "patricia.fenoll@decathlon.com": "Elefantes",
+    "david.martinez@decathlon.com": "Elefantes",
+    "francesc.sanz@decathlon.com": "Elefantes",
     # Dragones
-    "Visi LOPEZ": "Dragones",
-    "Faina VALISHINA": "Dragones",
-    "Anna CODINA": "Dragones",
-    "Alba CORREAL": "Dragones",
-    "Julia CODINA": "Dragones",
-    "Said ZAROUALI": "Dragones",
-    "Hamza MOUSSATI": "Dragones",
-    "Roger BLANCAFORT": "Dragones",
-    "Gabriel Fernando SUIN": "Dragones",
-    "Guillermo SANCHEZ": "Dragones",
-    "Marcel SALES": "Dragones",
-    "Margarita MARIN": "Dragones",
-    "Imane EL HARACHI": "Dragones",
-    "Joan CASTRO": "Dragones",
-    "Gabriel MORERA": "Dragones",
-    "Anna MORELL": "Dragones",
-    "Judit FRIGOLA": "Dragones",
-    "Esperanza Maria MUNTADAS": "Dragones",
+    "visitacion.lopez@decathlon.com": "Dragones",
+    "faina.valishina@decathlon.com": "Dragones",
+    "anna.codina@decathlon.com": "Dragones",
+    "alba.correal@decathlon.com": "Dragones",
+    "julia.codina@decathlon.com": "Dragones",
+    "said.zarouali@decathlon.com": "Dragones",
+    "hamza.moussati@decathlon.com": "Dragones",
+    "roger.blancafort@decathlon.com": "Dragones",
+    "gabrielfernandu.suin@decathlon.com": "Dragones",
+    "guillermo.sanchez@decathlon.com": "Dragones",
+    "marcel.sales@decathlon.com": "Dragones",
+    "margarita.marin@decathlon.com": "Dragones",
+    "imane.elharachi@decathlon.com": "Dragones",
+    "joan.castro@decathlon.com": "Dragones",
+    "gabriel.morera@decathlon.com": "Dragones",
+    "anna.morell@decathlon.com": "Dragones",
+    "judit.frigola@decathlon.com": "Dragones",
+    "esperanza.muntadas@decathlon.com": "Dragones",
     # Escorpiones
-    "Jota ZAMORA": "Escorpiones",
-    "Natalia MANCUSO": "Escorpiones",
-    "Miguel LOPEZ": "Escorpiones",
-    "Carme LOBATO": "Escorpiones",
-    "Enrique GOMEZ": "Escorpiones",
-    "Julia JIMENEZ": "Escorpiones",
-    "Joel LOPEZ": "Escorpiones",
-    "Roc CAMPS": "Escorpiones",
-    "Mar Roura": "Escorpiones",
-    "Nill OLLER": "Escorpiones",
-    "JORDI MAYO": "Escorpiones",
-    "Marc SANCHEZ": "Escorpiones",
-    "Carme PELAEZ": "Escorpiones",
-    "Arnau LOPEZ": "Escorpiones",
-    "Álvaro Jiménez": "Escorpiones",
-    "Francisco FERNÁNDEZ": "Escorpiones",
-    "Basma BACHIRI": "Escorpiones",
-    "Adam AABACHRIM": "Escorpiones"
+    "joanjosep.delapena@decathlon.com": "Escorpiones",
+    "natalia.mancuso@decathlon.com": "Escorpiones",
+    "miguel.lopez@decathlon.com": "Escorpiones",
+    "carme.lobato@decathlon.com": "Escorpiones",
+    "enrique.gomez@decathlon.com": "Escorpiones",
+    "julia.jimenez@decathlon.com": "Escorpiones",
+    "joel.lopez@decathlon.com": "Escorpiones",
+    "roc.camps1@decathlon.com": "Escorpiones",
+    "mar.roura@decathlon.com": "Escorpiones",
+    "nill.oller@decathlon.com": "Escorpiones",
+    "jordi.mayo@decathlon.com": "Escorpiones",
+    "marc.sanchez@decathlon.com": "Escorpiones",
+    "carme.pelaez@decathlon.com": "Escorpiones",
+    "arnau.lopez@decathlon.com": "Escorpiones",
+    "alvaro.jimenez@decathlon.com": "Escorpiones",
+    "francisco.fernandez@decathlon.com": "Escorpiones",
+    "basma.bachiri@decathlon.com": "Escorpiones",
+    "adam.aabachrim@decathlon.com": "Escorpiones"
+}
+
+# Diccionario auxiliar: correo -> nombre
+correos_a_nombres = {
+    # Tiburones
+    "paolaandrea.hernandez@decathlon.com": "Paola Andrea Hernandez",
+    "guillem.subils@decathlon.com": "Guillem Subils",
+    "adria.borrell@decathlon.com": "Adria Borrell",
+    "carles.lopez@decathlon.com": "Carles Lopez",
+    "tomas.favilla@decathlon.com": "Tomas Favilla",
+    "luzmaria.quiroz@decathlon.com": "Luz Maria Quiroz",
+    "maria.soto@decathlon.com": "Maria Soto",
+    "joana.planas@decathlon.com": "Joana Planas",
+    "alex.sanchez@decathlon.com": "Alex Sanchez",
+    "ferran.puente@decathlon.com": "Ferran Puente",
+    "adrian.portela@decathlon.com": "Adrian Portela",
+    "agustin.gutierrez@decathlon.com": "Agustin Gutierrez",
+    "jordi.moline@decathlon.com": "Jordi Moline",
+    "blanca.martinez@decathlon.com": "Blanca Martinez",
+    "abril.jofre@decathlon.com": "Abril Jofre",
+    "eudald.blanch@decathlon.com": "Eudald Blanch",
+    "lesley.caicedo@decathlon.com": "Lesley Caicedo",
+    "izan.soler@decathlon.com": "Izan Soler",
+    "pol.perarnau@decathlon.com": "Pol Perarnau",
+    # Elefantes
+    "nerea.castillo@decathlon.com": "Nerea Castillo",
+    "arnau.costa@decathlon.com": "Arnau Costa",
+    "aina.fuentes@decathlon.com": "Aina Fuentes",
+    "estell.collado@decathlon.com": "Estell Collado",
+    "gemma.marti@decathlon.com": "Gemma Marti",
+    "marcos.garcia2@decathlon.com": "Marcos Garcia",
+    "david.ortiz@decathlon.com": "David Ortiz",
+    "enric.santacatalina@decathlon.com": "Enric Santacatalina",
+    "marti.bague@decathlon.com": "Marti Bague",
+    "kevinadrian.pesantes@decathlon.com": "Kevin Adrian Pesantes",
+    "aya@decathlon.com": "Aya",
+    "paula.bash@decathlon.com": "Paula Bash",
+    "sandra.soares@decathlon.com": "Sandra Soares",
+    "manuela.vargas@decathlon.com": "Manuela Vargas",
+    "miriam.pena@decathlon.com": "Miriam Pena",
+    "patricia.fenoll@decathlon.com": "Patricia Fenoll",
+    "david.martinez@decathlon.com": "David Martinez",
+    "francesc.sanz@decathlon.com": "Francesc Sanz",
+    # Dragones
+    "visitacion.lopez@decathlon.com": "Visi Lopez",
+    "faina.valishina@decathlon.com": "Faina Valishina",
+    "anna.codina@decathlon.com": "Anna Codina",
+    "alba.correal@decathlon.com": "Alba Correal",
+    "julia.codina@decathlon.com": "Julia Codina",
+    "said.zarouali@decathlon.com": "Said Zarouali",
+    "hamza.moussati@decathlon.com": "Hamza Moussati",
+    "roger.blancafort@decathlon.com": "Roger Blancafort",
+    "gabrielfernandu.suin@decathlon.com": "Gabriel Fernando Suin",
+    "guillermo.sanchez@decathlon.com": "Guillermo Sanchez",
+    "marcel.sales@decathlon.com": "Marcel Sales",
+    "margarita.marin@decathlon.com": "Margarita Marin",
+    "imane.elharachi@decathlon.com": "Imane El Harachi",
+    "joan.castro@decathlon.com": "Joan Castro",
+    "gabriel.morera@decathlon.com": "Gabriel Morera",
+    "anna.morell@decathlon.com": "Anna Morell",
+    "judit.frigola@decathlon.com": "Judit Frigola",
+    "esperanza.muntadas@decathlon.com": "Esperanza Maria Muntadas",
+    # Escorpiones
+    "joanjosep.delapena@decathlon.com": "Jota Zamora",
+    "natalia.mancuso@decathlon.com": "Natalia Mancuso",
+    "miguel.lopez@decathlon.com": "Miguel Lopez",
+    "carme.lobato@decathlon.com": "Carme Lobato",
+    "enrique.gomez@decathlon.com": "Enrique Gomez",
+    "julia.jimenez@decathlon.com": "Julia Jimenez",
+    "joel.lopez@decathlon.com": "Joel Lopez",
+    "roc.camps1@decathlon.com": "Roc Camps",
+    "mar.roura@decathlon.com": "Mar Roura",
+    "nill.oller@decathlon.com": "Nill Oller",
+    "jordi.mayo@decathlon.com": "Jordi Mayo",
+    "marc.sanchez@decathlon.com": "Marc Sanchez",
+    "carme.pelaez@decathlon.com": "Carme Pelaez",
+    "arnau.lopez@decathlon.com": "Arnau Lopez",
+    "alvaro.jimenez@decathlon.com": "Alvaro Jimenez",
+    "francisco.fernandez@decathlon.com": "Francisco Fernandez",
+    "basma.bachiri@decathlon.com": "Basma Bachiri",
+    "adam.aabachrim@decathlon.com": "Adam Aabachrim"
 }
 
 # Cargar puntos desde archivo si existe
@@ -159,13 +240,12 @@ puntos_mp = ordenar_diccionario(puntos_mp)
 
 def personas_ordenadas(grupo):
     destacados = {
-        "Tiburones": "Paola Hernandez",
-        "Elefantes": "Nerea Castillo",
-        "Dragones": "Visi Lopez",
-        "Escorpiones": "Jota Zamora"
+        "Tiburones": "paolaandrea.hernandez@decathlon.com",
+        "Elefantes": "nerea.castillo@decathlon.com",
+        "Dragones": "visitacion.lopez@decathlon.com",
+        "Escorpiones": "joanjosep.delapena@decathlon.com"
     }
-    # Poner el destacado primero y el resto después
-    miembros = [p for p, g in personas.items() if g == grupo]
+    miembros = [correo for correo, g in personas.items() if g == grupo]
     primero = destacados.get(grupo)
     if primero in miembros:
         miembros.remove(primero)
@@ -276,6 +356,7 @@ template = '''
                             <h2 style="color:#0d47a1; text-align:center;">Enviar comentario</h2>
                             <form id="comentario-form" style="display:flex; flex-direction:column; gap:12px; margin-top:18px;" onsubmit="return false;">
                                 <input type="text" id="comentario-nombre" name="nombre" placeholder="Tu nombre" required style="padding:8px; border-radius:8px; border:1px solid #bbb;">
+                                   <input type="email" id="comentario-email" name="email" placeholder="Tu correo (opcional)" style="padding:8px; border-radius:8px; border:1px solid #bbb;">
                                 <textarea id="comentario-texto" name="comentario" placeholder="Escribe tu comentario aquí..." required style="padding:8px; border-radius:8px; border:1px solid #bbb; min-height:80px;"></textarea>
                                 <button type="button" id="comentario-enviar" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 0; font-weight:bold;">Enviar</button>
                                 <div id="comentario-exito" style="display:none; color:green; text-align:center;">¡Comentario enviado!</div>
@@ -303,17 +384,12 @@ template = '''
                     </div>
                     <div class="personas">
                         {% set miembros = personas_ordenadas(grupo) %}
-                        {% for persona in miembros %}
-                            {% if persona == 'Adam AABACHRIM' %}
-                                {% set nombre_formateado = 'Adam Aabachrim' %}
-                            {% else %}
-                                {% set partes = persona.split() %}
-                                {% set nombre_formateado = partes | map('lower') | map('capitalize') | join(' ') %}
-                            {% endif %}
+                        {% for correo in miembros %}
+                            {% set nombre = correos_a_nombres.get(correo, correo) %}
                             {% if loop.index0 == 0 %}
-                                <span class="destacado">{{ nombre_formateado }}</span><br>
+                                <span class="destacado">{{ nombre }}</span><br>
                             {% else %}
-                                {{ nombre_formateado }}<br>
+                                {{ nombre }}<br>
                             {% endif %}
                         {% endfor %}
                     </div>
@@ -390,41 +466,46 @@ document.addEventListener('DOMContentLoaded', function() {
     });
     equipoModalClose.onclick = () => { equipoModal.style.display = 'none'; };
     equipoModal.onclick = (e) => { if(e.target === equipoModal) equipoModal.style.display = 'none'; };
-            function mostrarEquipoModal(equipo) {
-                const equiposData = {{ puntos|tojson }};
-                const personasData = {{ personas|tojson }};
-                const destacados = {"Tiburones": "Paola Andrea HERNANDEZ", "Elefantes": "Nerea Castillo", "Dragones": "Visi LOPEZ", "Escorpiones": "Jota ZAMORA"};
-                const destacado = destacados[equipo];
-                let integrantes = Object.entries(personasData).filter(([nombre, grupo]) => grupo === equipo).map(([nombre]) => nombre);
-                // Mover el destacado al principio si existe
-                if(destacado) {
-                    const idx = integrantes.indexOf(destacado);
-                    if(idx > -1) {
-                        integrantes.splice(idx,1);
-                        integrantes = [destacado, ...integrantes];
-                    }
-                }
-                let integrantesHtml = '';
-                for(let i=0; i<integrantes.length; i++) {
-                    const nombre = integrantes[i];
-                    const partes = nombre.split(' ');
-                    const nombreFormateado = partes.map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()).join(' ');
-                    if(nombre === destacado) {
-                        integrantesHtml += `<div style='margin-bottom:4px;'><span class=\"destacado\">${nombreFormateado}</span></div>`;
-                    } else {
-                        integrantesHtml += `<div style='margin-bottom:4px;'>${nombreFormateado}</div>`;
-                    }
-                }
-                equipoModalBody.innerHTML = `
-                    <div style='display:flex; align-items:center; gap:18px; margin-bottom:18px;'>
-                        <img src='/static/logos/${equipo.toLowerCase()}.png' alt='Logo ${equipo}' style='width:60px; height:60px; object-fit:contain; border-radius:50%; background:#fff; border:1px solid #ccc;' onerror="this.onerror=null;this.src='/static/logos/${equipo.toLowerCase()}.jpg';this.onerror=function(){this.src='/static/logos/${equipo.toLowerCase()}.jpeg';this.onerror=null;};">
-                        <div style='font-size:1.5em; color:#0d47a1; font-weight:bold;'>${equipo}</div>
-                    </div>
-                    <div style='font-size:1.1em; color:#0d47a1; font-weight:bold; margin-bottom:8px;'>Integrantes:</div>
-                    <div>${integrantesHtml}</div>
-                `;
-                equipoModal.style.display = 'flex';
+    function mostrarEquipoModal(equipo) {
+        const personasData = {{ personas|tojson }};
+        const nombresData = {{ correos_a_nombres|tojson }};
+        // Identificar el correo del destacado
+        const destacados = {
+            "Tiburones": "paolaandrea.hernandez@decathlon.com",
+            "Elefantes": "nerea.castillo@decathlon.com",
+            "Dragones": "visitacion.lopez@decathlon.com",
+            "Escorpiones": "joanjosep.delapena@decathlon.com"
+        };
+        let integrantes = Object.entries(personasData).filter(([correo, grupo]) => grupo === equipo).map(([correo]) => correo);
+        const destacadoCorreo = destacados[equipo];
+        // Mover el destacado al principio si existe
+        if(destacadoCorreo) {
+            const idx = integrantes.indexOf(destacadoCorreo);
+            if(idx > -1) {
+                integrantes.splice(idx,1);
+                integrantes = [destacadoCorreo, ...integrantes];
             }
+        }
+        let integrantesHtml = '';
+        for(let i=0; i<integrantes.length; i++) {
+            const correo = integrantes[i];
+            const nombre = nombresData[correo] || correo;
+            if(i === 0) {
+                integrantesHtml += `<div style='margin-bottom:4px; font-weight:bold; color:#0d47a1;'>${nombre} <span style='color:gold;' title='Destacado'>&#11088;</span></div>`;
+            } else {
+                integrantesHtml += `<div style='margin-bottom:4px;'>${nombre}</div>`;
+            }
+        }
+        equipoModalBody.innerHTML = `
+            <div style='display:flex; align-items:center; gap:18px; margin-bottom:18px;'>
+                <img src='/static/logos/${equipo.toLowerCase()}.png' alt='Logo ${equipo}' style='width:60px; height:60px; object-fit:contain; border-radius:50%; background:#fff; border:1px solid #ccc;' onerror="this.onerror=null;this.src='/static/logos/${equipo.toLowerCase()}.jpg';this.onerror=function(){this.src='/static/logos/${equipo.toLowerCase()}.jpeg';this.onerror=null;};">
+                <div style='font-size:1.5em; color:#0d47a1; font-weight:bold;'>${equipo}</div>
+            </div>
+            <div style='font-size:1.1em; color:#0d47a1; font-weight:bold; margin-bottom:8px;'>Integrantes:</div>
+            <div>${integrantesHtml}</div>
+        `;
+        equipoModal.style.display = 'flex';
+    }
 });
 </script>
 </body>
@@ -435,23 +516,24 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template_string(template, puntos=puntos, personas=personas, puntos_mp=puntos_mp, personas_ordenadas=personas_ordenadas)
+    return render_template_string(template, puntos=puntos, personas=personas, puntos_mp=puntos_mp, personas_ordenadas=personas_ordenadas, correos_a_nombres=correos_a_nombres)
 
 @app.route("/webhook", methods=["POST"])
 
 def normalizar(texto):
     return ''.join(c for c in unicodedata.normalize('NFD', texto.lower()) if unicodedata.category(c) != 'Mn')
 
-def buscar_persona(user_name):
-    user_norm = normalizar(user_name)
-    for persona in personas:
-        if normalizar(persona) in user_norm:
-            return persona
+def buscar_persona(user_email):
+    # El email ya viene en minúsculas, pero aseguramos
+    user_email = user_email.strip().lower()
+    if user_email in personas:
+        return user_email
     return None
 
 def webhook():
     data = request.json
-    user_name = data.get("user", {}).get("displayName", "")
+    print('Webhook recibido:', data)  # <-- Esto mostrará el JSON recibido en la consola
+    user_email = data.get("user", {}).get("email", "")
     text = data.get("text", "")
     respuesta = "Mensaje recibido."
     hoy = datetime.now()
@@ -459,7 +541,7 @@ def webhook():
     if hoy < inicio:
         respuesta = "La competición empieza el 01/09. Los puntos aún no se pueden sumar."
     else:
-        persona_encontrada = buscar_persona(user_name)
+        persona_encontrada = buscar_persona(user_email)
         if "+1 mp" in text.lower() and persona_encontrada:
             equipo = personas[persona_encontrada]
             puntos_mp[equipo] += 1
@@ -472,14 +554,33 @@ def webhook():
             respuesta = f"¡Punto para {equipo}! Total: {puntos[equipo]}"
     return jsonify({"text": respuesta})
 
+import smtplib
+from email.mime.text import MIMEText
+
 @app.route("/comentario", methods=["POST"])
 def comentario():
     data = request.get_json()
     nombre = data.get("nombre", "").strip()
+    email = data.get("email", "").strip()
     comentario = data.get("comentario", "").strip()
     if nombre and comentario:
         with open("comentarios.txt", "a", encoding="utf-8") as f:
             f.write(f"{nombre}: {comentario}\n")
+            # Enviar correo al admin
+            try:
+                remitente = "perarnaupol@gmail.com"  # Cambia esto
+                destinatario = "perarnaupol@gmail.com"  # Cambia esto
+                password = "polp2005"  # Cambia esto
+                cuerpo = f"Nombre: {nombre}\nCorreo: {email}\nComentario: {comentario}"
+                msg = MIMEText(cuerpo)
+                msg["Subject"] = "Nuevo comentario recibido"
+                msg["From"] = remitente
+                msg["To"] = destinatario
+                with smtplib.SMTP_SSL("smtp.gmail.com", 465) as server:
+                    server.login(remitente, password)
+                    server.sendmail(remitente, destinatario, msg.as_string())
+            except Exception as e:
+                print("Error enviando correo:", e)
         return jsonify({"ok": True})
     return jsonify({"ok": False}), 400
 
