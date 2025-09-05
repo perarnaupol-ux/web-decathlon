@@ -1,4 +1,15 @@
-from flask import Flask, request, jsonify, render_template_string
+from flask import Flask, request, jsonify, render_template_string, abort
+import threading
+import unicodedata
+from datetime import datetime
+import pytesseract
+from PIL import Image
+import os
+import json
+from collections import OrderedDict
+
+app = Flask(__name__)
+
 import threading
 import unicodedata
 from datetime import datetime
@@ -235,13 +246,48 @@ template = '''
                     <div style="font-size: 1.05em; color: #0d47a1; background: #fff; padding: 5px 14px; border-radius: 0 0 0 14px; font-weight: bold; box-shadow: 0 2px 8px #bbb; white-space:nowrap;">Del 01/09 al 31/12</div>
                 </div>
             </div>
-            <div style="text-align:center; margin-bottom: 22px;">
-                <div style="display:inline-block; background:#fff; color:#0d47a1; border-radius:14px; padding:14px 24px; box-shadow:0 1px 6px #bbb; max-width:600px;">
+            <div style="display:flex; justify-content:center; align-items:stretch; margin-bottom:22px; gap:18px;">
+                <div style="display:inline-block; background:#fff; color:#0d47a1; border-radius:14px; padding:14px 24px; box-shadow:0 1px 6px #bbb; max-width:600px; flex:1;">
                     <div style="font-size:1.2em; font-weight:bold; margin-bottom:6px;">¿Qué es el Ranking DIS?</div>
                     <div style="font-size:1em;">
                         Es una competencia en la que formarás parte de un equipo compuesto por colaboradores de distintos universos, unidos por un animal.<br>
                         ¡Sé el mejor y defiende el animal de tu equipo! Al final, habrá recompensa para los ganadores.
                     </div>
+                </div>
+                <div style="position:relative; display:flex; flex-direction:column; align-items:end; margin-left:auto; gap:10px;">
+                    <div style="display:flex; gap:10px; align-items:end;">
+                        <div style="position:relative; display:inline-block; vertical-align:top;">
+                            <div id="equipos-btn" style="background:#0d47a1; color:#fff; border-radius:12px; padding:12px 24px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Equipos</div>
+                            <div id="equipos-dropdown" style="display:none; position:absolute; top:100%; left:0; background:#fff; border-radius:10px; box-shadow:0 2px 12px #888; min-width:180px; z-index:10;">
+                                {% for grupo in puntos.keys() %}
+                                <div class="equipo-item" data-equipo="{{ grupo }}" style="padding:10px 18px; cursor:pointer; border-bottom:1px solid #eee; display:flex; align-items:center; gap:8px;">
+                                    <img src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" style="width:28px; height:28px; object-fit:contain; border-radius:50%; background:#fff; border:1px solid #ccc;" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};">
+                                    <span style="color:#0d47a1; font-weight:bold;">{{ grupo }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <button id="comentarios-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb;">Comentarios</button>
+                    </div>
+                    </div>
+                    <div id="comentarios-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:1000; align-items:center; justify-content:center;">
+                        <div style="background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px; min-width:320px; max-width:90vw; max-height:90vh; overflow:auto; position:relative;">
+                            <span id="comentarios-modal-close" style="position:absolute; top:12px; right:18px; font-size:1.7em; color:#888; cursor:pointer;">&times;</span>
+                            <h2 style="color:#0d47a1; text-align:center;">Enviar comentario</h2>
+                            <form id="comentario-form" style="display:flex; flex-direction:column; gap:12px; margin-top:18px;" onsubmit="return false;">
+                                <input type="text" id="comentario-nombre" name="nombre" placeholder="Tu nombre" required style="padding:8px; border-radius:8px; border:1px solid #bbb;">
+                                <textarea id="comentario-texto" name="comentario" placeholder="Escribe tu comentario aquí..." required style="padding:8px; border-radius:8px; border:1px solid #bbb; min-height:80px;"></textarea>
+                                <button type="button" id="comentario-enviar" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 0; font-weight:bold;">Enviar</button>
+                                <div id="comentario-exito" style="display:none; color:green; text-align:center;">¡Comentario enviado!</div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="equipo-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:1000; align-items:center; justify-content:center;">
+                <div id="equipo-modal-content" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px; min-width:320px; max-width:90vw; max-height:90vh; overflow:auto; position:relative;">
+                    <span id="equipo-modal-close" style="position:absolute; top:12px; right:18px; font-size:1.7em; color:#888; cursor:pointer;">&times;</span>
+                    <div id="equipo-modal-body"></div>
                 </div>
             </div>
             <div class="grupos-flex">
@@ -275,7 +321,7 @@ template = '''
             {% endfor %}
             </div>
             <div class="separador"></div>
-            <h2>MARKET PLACE</h2>
+            <h2 style="background:#fff; display:inline-block; padding:10px 32px; border-radius:14px; box-shadow:0 1px 6px #bbb; color:#0d47a1; font-weight:bold; margin-bottom:18px;">MARKET PLACE</h2>
             <div style="text-align:center; margin-bottom: 16px;">
                 <span style="font-size:1.15em; color:#0d47a1; background:#fff; display:inline-block; padding:6px 18px; border-radius:14px; font-weight:bold; box-shadow:0 1px 4px #bbb;">Nuestro objetivo: ser número uno de Market Place en tiendas Decathlon España.</span>
             </div>
@@ -296,6 +342,91 @@ template = '''
             <p style="text-align:center;color:#888;">Actualiza cada 60 segundos</p>
         </div>
     </div>
+    <script>
+        // Comentarios modal
+        document.addEventListener('DOMContentLoaded', function() {
+            const comentariosBtn = document.getElementById('comentarios-btn');
+            const comentariosModal = document.getElementById('comentarios-modal');
+            const comentariosModalClose = document.getElementById('comentarios-modal-close');
+            const comentarioForm = document.getElementById('comentario-form');
+            const comentarioExito = document.getElementById('comentario-exito');
+            const comentarioEnviar = document.getElementById('comentario-enviar');
+            if(comentariosBtn) comentariosBtn.onclick = () => { comentariosModal.style.display = 'flex'; };
+            if(comentariosModalClose) comentariosModalClose.onclick = () => { comentariosModal.style.display = 'none'; };
+            if(comentariosModal) comentariosModal.onclick = (e) => { if(e.target === comentariosModal) comentariosModal.style.display = 'none'; };
+            if(comentarioEnviar) comentarioEnviar.onclick = function(e) {
+                const nombre = document.getElementById('comentario-nombre').value;
+                const comentario = document.getElementById('comentario-texto').value;
+                if (!nombre.trim() || !comentario.trim()) return;
+                fetch('/comentario', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ nombre, comentario })
+                }).then(r => r.json()).then(data => {
+                    if(data.ok) {
+                        comentarioExito.style.display = 'block';
+                        comentarioForm.reset();
+                        setTimeout(()=>{comentariosModal.style.display='none'; comentarioExito.style.display='none';}, 1500);
+                    }
+                });
+            };
+        });
+document.addEventListener('DOMContentLoaded', function() {
+    const equiposBtn = document.getElementById('equipos-btn');
+    const equiposDropdown = document.getElementById('equipos-dropdown');
+    const equipoModal = document.getElementById('equipo-modal');
+    const equipoModalBody = document.getElementById('equipo-modal-body');
+    const equipoModalClose = document.getElementById('equipo-modal-close');
+    equiposBtn.addEventListener('mouseenter', () => { equiposDropdown.style.display = 'block'; });
+    equiposBtn.addEventListener('mouseleave', () => { setTimeout(()=>{ if(!equiposDropdown.matches(':hover')) equiposDropdown.style.display='none'; }, 200); });
+    equiposDropdown.addEventListener('mouseleave', () => { equiposDropdown.style.display = 'none'; });
+    equiposDropdown.addEventListener('mouseenter', () => { equiposDropdown.style.display = 'block'; });
+    document.querySelectorAll('.equipo-item').forEach(item => {
+        item.addEventListener('click', function() {
+            const equipo = this.getAttribute('data-equipo');
+            mostrarEquipoModal(equipo);
+            equiposDropdown.style.display = 'none';
+        });
+    });
+    equipoModalClose.onclick = () => { equipoModal.style.display = 'none'; };
+    equipoModal.onclick = (e) => { if(e.target === equipoModal) equipoModal.style.display = 'none'; };
+            function mostrarEquipoModal(equipo) {
+                const equiposData = {{ puntos|tojson }};
+                const personasData = {{ personas|tojson }};
+                const destacados = {"Tiburones": "Paola Andrea HERNANDEZ", "Elefantes": "Nerea Castillo", "Dragones": "Visi LOPEZ", "Escorpiones": "Jota ZAMORA"};
+                const destacado = destacados[equipo];
+                let integrantes = Object.entries(personasData).filter(([nombre, grupo]) => grupo === equipo).map(([nombre]) => nombre);
+                // Mover el destacado al principio si existe
+                if(destacado) {
+                    const idx = integrantes.indexOf(destacado);
+                    if(idx > -1) {
+                        integrantes.splice(idx,1);
+                        integrantes = [destacado, ...integrantes];
+                    }
+                }
+                let integrantesHtml = '';
+                for(let i=0; i<integrantes.length; i++) {
+                    const nombre = integrantes[i];
+                    const partes = nombre.split(' ');
+                    const nombreFormateado = partes.map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase()).join(' ');
+                    if(nombre === destacado) {
+                        integrantesHtml += `<div style='margin-bottom:4px;'><span class=\"destacado\">${nombreFormateado}</span></div>`;
+                    } else {
+                        integrantesHtml += `<div style='margin-bottom:4px;'>${nombreFormateado}</div>`;
+                    }
+                }
+                equipoModalBody.innerHTML = `
+                    <div style='display:flex; align-items:center; gap:18px; margin-bottom:18px;'>
+                        <img src='/static/logos/${equipo.toLowerCase()}.png' alt='Logo ${equipo}' style='width:60px; height:60px; object-fit:contain; border-radius:50%; background:#fff; border:1px solid #ccc;' onerror="this.onerror=null;this.src='/static/logos/${equipo.toLowerCase()}.jpg';this.onerror=function(){this.src='/static/logos/${equipo.toLowerCase()}.jpeg';this.onerror=null;};">
+                        <div style='font-size:1.5em; color:#0d47a1; font-weight:bold;'>${equipo}</div>
+                    </div>
+                    <div style='font-size:1.1em; color:#0d47a1; font-weight:bold; margin-bottom:8px;'>Integrantes:</div>
+                    <div>${integrantesHtml}</div>
+                `;
+                equipoModal.style.display = 'flex';
+            }
+});
+</script>
 </body>
 </html>
 '''
@@ -340,6 +471,25 @@ def webhook():
             guardar_puntos()
             respuesta = f"¡Punto para {equipo}! Total: {puntos[equipo]}"
     return jsonify({"text": respuesta})
+
+@app.route("/comentario", methods=["POST"])
+def comentario():
+    data = request.get_json()
+    nombre = data.get("nombre", "").strip()
+    comentario = data.get("comentario", "").strip()
+    if nombre and comentario:
+        with open("comentarios.txt", "a", encoding="utf-8") as f:
+            f.write(f"{nombre}: {comentario}\n")
+        return jsonify({"ok": True})
+    return jsonify({"ok": False}), 400
+
+@app.route("/comentarios_raw")
+def comentarios_raw():
+    try:
+        with open("comentarios.txt", "r", encoding="utf-8") as f:
+            return "<pre>" + f.read() + "</pre>"
+    except FileNotFoundError:
+        return "No hay comentarios aún."
 
 if __name__ == "__main__":
     import os
