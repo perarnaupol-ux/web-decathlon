@@ -592,6 +592,20 @@ def comentarios_raw():
     except FileNotFoundError:
         return "No hay comentarios aún."
 
+from flask import request, Response
+
+@app.route("/admin_comentarios")
+def admin_comentarios():
+    password = request.args.get("password", "")
+    if password != "admin123":
+        return '''<form method="get">Contraseña: <input type="password" name="password"><input type="submit" value="Entrar"></form>'''
+    try:
+        with open("comentarios.txt", "r", encoding="utf-8") as f:
+            comentarios = f.read()
+        return f"<h2>Comentarios recibidos</h2><pre>{comentarios}</pre>"
+    except FileNotFoundError:
+        return "No hay comentarios aún."
+
 if __name__ == "__main__":
     import os
     port = int(os.environ.get("PORT", 5000))
