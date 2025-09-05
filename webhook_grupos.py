@@ -63,22 +63,21 @@ personas = {
     # Elefantes
     "nerea.castillo@decathlon.com": "Elefantes",
     "arnau.costa@decathlon.com": "Elefantes",
-    "aina.fuentes@decathlon.com": "Elefantes",
-    "estell.collado@decathlon.com": "Elefantes",
-    "gemma.marti@decathlon.com": "Elefantes",
     "marcos.garcia2@decathlon.com": "Elefantes",
     "david.ortiz@decathlon.com": "Elefantes",
     "enric.santacatalina@decathlon.com": "Elefantes",
     "marti.bague@decathlon.com": "Elefantes",
     "kevinadrian.pesantes@decathlon.com": "Elefantes",
-    "aya@decathlon.com": "Elefantes",
-    "paula.bash@decathlon.com": "Elefantes",
+    "paula.bachs@decathlon.com": "Elefantes",
     "sandra.soares@decathlon.com": "Elefantes",
     "manuela.vargas@decathlon.com": "Elefantes",
-    "miriam.pena@decathlon.com": "Elefantes",
+    "miriam.peña@decathlon.com": "Elefantes",
     "patricia.fenoll@decathlon.com": "Elefantes",
     "david.martinez@decathlon.com": "Elefantes",
     "francesc.sanz@decathlon.com": "Elefantes",
+    "carlos.riquleme@decathlon.com": "Elefantes",
+    "carme.pelaez@decathlon.com": "Elefantes",
+    "aina.fuentes@decathlon.com": "Elefantes",
     # Dragones
     "visitacion.lopez@decathlon.com": "Dragones",
     "faina.valishina@decathlon.com": "Dragones",
@@ -87,7 +86,6 @@ personas = {
     "julia.codina@decathlon.com": "Dragones",
     "said.zarouali@decathlon.com": "Dragones",
     "hamza.moussati@decathlon.com": "Dragones",
-    "roger.blancafort@decathlon.com": "Dragones",
     "gabrielfernandu.suin@decathlon.com": "Dragones",
     "guillermo.sanchez@decathlon.com": "Dragones",
     "marcel.sales@decathlon.com": "Dragones",
@@ -101,17 +99,13 @@ personas = {
     # Escorpiones
     "joanjosep.delapena@decathlon.com": "Escorpiones",
     "natalia.mancuso@decathlon.com": "Escorpiones",
-    "miguel.lopez@decathlon.com": "Escorpiones",
     "carme.lobato@decathlon.com": "Escorpiones",
     "enrique.gomez@decathlon.com": "Escorpiones",
     "julia.jimenez@decathlon.com": "Escorpiones",
     "joel.lopez@decathlon.com": "Escorpiones",
-    "roc.camps1@decathlon.com": "Escorpiones",
     "mar.roura@decathlon.com": "Escorpiones",
-    "nill.oller@decathlon.com": "Escorpiones",
     "jordi.mayo@decathlon.com": "Escorpiones",
     "marc.sanchez@decathlon.com": "Escorpiones",
-    "carme.pelaez@decathlon.com": "Escorpiones",
     "arnau.lopez@decathlon.com": "Escorpiones",
     "alvaro.jimenez@decathlon.com": "Escorpiones",
     "francisco.fernandez@decathlon.com": "Escorpiones",
@@ -119,86 +113,14 @@ personas = {
     "adam.aabachrim@decathlon.com": "Escorpiones"
 }
 
-# Diccionario auxiliar: correo -> nombre
-correos_a_nombres = {
-    # Tiburones
-    "paolaandrea.hernandez@decathlon.com": "Paola Andrea Hernandez",
-    "guillem.subils@decathlon.com": "Guillem Subils",
-    "adria.borrell@decathlon.com": "Adria Borrell",
-    "carles.lopez@decathlon.com": "Carles Lopez",
-    "tomas.favilla@decathlon.com": "Tomas Favilla",
-    "luzmaria.quiroz@decathlon.com": "Luz Maria Quiroz",
-    "maria.soto@decathlon.com": "Maria Soto",
-    "joana.planas@decathlon.com": "Joana Planas",
-    "alex.sanchez@decathlon.com": "Alex Sanchez",
-    "ferran.puente@decathlon.com": "Ferran Puente",
-    "adrian.portela@decathlon.com": "Adrian Portela",
-    "agustin.gutierrez@decathlon.com": "Agustin Gutierrez",
-    "jordi.moline@decathlon.com": "Jordi Moline",
-    "blanca.martinez@decathlon.com": "Blanca Martinez",
-    "abril.jofre@decathlon.com": "Abril Jofre",
-    "eudald.blanch@decathlon.com": "Eudald Blanch",
-    "lesley.caicedo@decathlon.com": "Lesley Caicedo",
-    "izan.soler@decathlon.com": "Izan Soler",
-    "pol.perarnau@decathlon.com": "Pol Perarnau",
-    # Elefantes
-    "nerea.castillo@decathlon.com": "Nerea Castillo",
-    "arnau.costa@decathlon.com": "Arnau Costa",
-    "aina.fuentes@decathlon.com": "Aina Fuentes",
-    "estell.collado@decathlon.com": "Estell Collado",
-    "gemma.marti@decathlon.com": "Gemma Marti",
-    "marcos.garcia2@decathlon.com": "Marcos Garcia",
-    "david.ortiz@decathlon.com": "David Ortiz",
-    "enric.santacatalina@decathlon.com": "Enric Santacatalina",
-    "marti.bague@decathlon.com": "Marti Bague",
-    "kevinadrian.pesantes@decathlon.com": "Kevin Adrian Pesantes",
-    "aya@decathlon.com": "Aya",
-    "paula.bash@decathlon.com": "Paula Bash",
-    "sandra.soares@decathlon.com": "Sandra Soares",
-    "manuela.vargas@decathlon.com": "Manuela Vargas",
-    "miriam.pena@decathlon.com": "Miriam Pena",
-    "patricia.fenoll@decathlon.com": "Patricia Fenoll",
-    "david.martinez@decathlon.com": "David Martinez",
-    "francesc.sanz@decathlon.com": "Francesc Sanz",
-    # Dragones
-    "visitacion.lopez@decathlon.com": "Visi Lopez",
-    "faina.valishina@decathlon.com": "Faina Valishina",
-    "anna.codina@decathlon.com": "Anna Codina",
-    "alba.correal@decathlon.com": "Alba Correal",
-    "julia.codina@decathlon.com": "Julia Codina",
-    "said.zarouali@decathlon.com": "Said Zarouali",
-    "hamza.moussati@decathlon.com": "Hamza Moussati",
-    "roger.blancafort@decathlon.com": "Roger Blancafort",
-    "gabrielfernandu.suin@decathlon.com": "Gabriel Fernando Suin",
-    "guillermo.sanchez@decathlon.com": "Guillermo Sanchez",
-    "marcel.sales@decathlon.com": "Marcel Sales",
-    "margarita.marin@decathlon.com": "Margarita Marin",
-    "imane.elharachi@decathlon.com": "Imane El Harachi",
-    "joan.castro@decathlon.com": "Joan Castro",
-    "gabriel.morera@decathlon.com": "Gabriel Morera",
-    "anna.morell@decathlon.com": "Anna Morell",
-    "judit.frigola@decathlon.com": "Judit Frigola",
-    "esperanza.muntadas@decathlon.com": "Esperanza Maria Muntadas",
-    # Escorpiones
-    "joanjosep.delapena@decathlon.com": "Jota Zamora",
-    "natalia.mancuso@decathlon.com": "Natalia Mancuso",
-    "miguel.lopez@decathlon.com": "Miguel Lopez",
-    "carme.lobato@decathlon.com": "Carme Lobato",
-    "enrique.gomez@decathlon.com": "Enrique Gomez",
-    "julia.jimenez@decathlon.com": "Julia Jimenez",
-    "joel.lopez@decathlon.com": "Joel Lopez",
-    "roc.camps1@decathlon.com": "Roc Camps",
-    "mar.roura@decathlon.com": "Mar Roura",
-    "nill.oller@decathlon.com": "Nill Oller",
-    "jordi.mayo@decathlon.com": "Jordi Mayo",
-    "marc.sanchez@decathlon.com": "Marc Sanchez",
-    "carme.pelaez@decathlon.com": "Carme Pelaez",
-    "arnau.lopez@decathlon.com": "Arnau Lopez",
-    "alvaro.jimenez@decathlon.com": "Alvaro Jimenez",
-    "francisco.fernandez@decathlon.com": "Francisco Fernandez",
-    "basma.bachiri@decathlon.com": "Basma Bachiri",
-    "adam.aabachrim@decathlon.com": "Adam Aabachrim"
-}
+# Diccionario auxiliar: correo -> nombre (generado automáticamente)
+correos_a_nombres = {}
+for correo in personas:
+    partes = correo.split('@')[0].replace('.', ' ').split()
+    nombre = ' '.join([p.capitalize() for p in partes])
+    correos_a_nombres[correo] = nombre
+# Corrección manual para Carlos Riquelme
+correos_a_nombres["carlos.riquelme@decathlon.com"] = "Carlos Riquelme"
 
 # Cargar puntos desde archivo si existe
 PUNTOS_FILE = "puntos.json"
@@ -417,6 +339,32 @@ template = '''
             </div>
             <p style="text-align:center;color:#888;">Actualiza cada 60 segundos</p>
         </div>
+        <!-- NUEVO: Mejor Vendedor de la semana -->
+        <div class="container" style="margin-top: 30px; margin-bottom: 30px; background: #f8fafc; border-radius: 16px; box-shadow: 0 2px 12px #cce; padding: 28px 18px; max-width: 700px;">
+            <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">🏆 Mejor Vendedor de la semana</h2>
+            {% set puntos_individuales = {} %}
+            {% for correo, grupo in personas.items() %}
+                {% set _ = puntos_individuales.update({correo: puntos_mp.get(grupo, 0) + puntos.get(grupo, 0)}) %}
+            {% endfor %}
+            {% set top3 = puntos_individuales.items()|sort(attribute=1, reverse=True) %}
+            <div style="display:flex; justify-content:center; gap:32px; align-items:flex-end;">
+                {% for correo, puntos_total in top3[:3] %}
+                    {% set nombre = correos_a_nombres.get(correo, correo) %}
+                    <div style="background:#fff; border-radius:16px; box-shadow:0 2px 10px #bbb; padding:18px 24px; min-width:160px; text-align:center; position:relative;">
+                        {% if loop.index == 1 %}
+                            <div style="font-size:2.2em; color:gold; position:absolute; top:-32px; left:50%; transform:translateX(-50%);">🥇</div>
+                        {% elif loop.index == 2 %}
+                            <div style="font-size:2em; color:#b0b0b0; position:absolute; top:-28px; left:50%; transform:translateX(-50%);">🥈</div>
+                        {% elif loop.index == 3 %}
+                            <div style="font-size:1.8em; color:#cd7f32; position:absolute; top:-24px; left:50%; transform:translateX(-50%);">🥉</div>
+                        {% endif %}
+                        <div style="font-size:1.25em; font-weight:bold; color:#0d47a1; margin-bottom:8px;">{{ nombre }}</div>
+                        <div style="font-size:1.1em; color:#444;">Puntos: <b>{{ puntos_total }}</b></div>
+                        <div style="font-size:0.95em; color:#888; margin-top:6px;">{{ personas.get(correo, correo) }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
     </div>
     <script>
         // Comentarios modal
@@ -489,7 +437,9 @@ document.addEventListener('DOMContentLoaded', function() {
         let integrantesHtml = '';
         for(let i=0; i<integrantes.length; i++) {
             const correo = integrantes[i];
-            const nombre = nombresData[correo] || correo;
+            let nombre = nombresData[correo] || correo;
+            // Corrección manual para Carlos Riquelme
+            if(correo === "carlos.riquelme@decathlon.com") nombre = "Carlos Riquelme";
             if(i === 0) {
                 integrantesHtml += `<div style='margin-bottom:4px; font-weight:bold; color:#0d47a1;'>${nombre} <span style='color:gold;' title='Destacado'>&#11088;</span></div>`;
             } else {
