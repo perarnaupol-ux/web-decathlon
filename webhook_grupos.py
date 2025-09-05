@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, render_template_string
 import threading
+import unicodedata
 from datetime import datetime
 import pytesseract
 from PIL import Image
@@ -306,25 +307,35 @@ def index():
     return render_template_string(template, puntos=puntos, personas=personas, puntos_mp=puntos_mp, personas_ordenadas=personas_ordenadas)
 
 @app.route("/webhook", methods=["POST"])
+
+def normalizar(texto):
+    return ''.join(c for c in unicodedata.normalize('NFD', texto.lower()) if unicodedata.category(c) != 'Mn')
+
+def buscar_persona(user_name):
+    user_norm = normalizar(user_name)
+    for persona in personas:
+        if normalizar(persona) in user_norm:
+            return persona
+    return None
+
 def webhook():
     data = request.json
     user_name = data.get("user", {}).get("displayName", "")
     text = data.get("text", "")
     respuesta = "Mensaje recibido."
-    # Solo sumar puntos si la fecha es igual o posterior al 01/09
     hoy = datetime.now()
     inicio = datetime(hoy.year, 9, 1)
     if hoy < inicio:
         respuesta = "La competición empieza el 01/09. Los puntos aún no se pueden sumar."
     else:
-        # Permitir coincidencia parcial de '+1' y '+1 mp' en cualquier parte del texto
-        if "+1 mp" in text.lower() and user_name in personas:
-            equipo = personas[user_name]
+        persona_encontrada = buscar_persona(user_name)
+        if "+1 mp" in text.lower() and persona_encontrada:
+            equipo = personas[persona_encontrada]
             puntos_mp[equipo] += 1
             guardar_puntos_mp()
             respuesta = f"¡Punto MP para {equipo}! Total: {puntos_mp[equipo]}"
-        elif "+1" in text.lower() and user_name in personas:
-            equipo = personas[user_name]
+        elif "+1" in text.lower() and persona_encontrada:
+            equipo = personas[persona_encontrada]
             puntos[equipo] += 1
             guardar_puntos()
             respuesta = f"¡Punto para {equipo}! Total: {puntos[equipo]}"
