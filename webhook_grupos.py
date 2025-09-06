@@ -217,6 +217,9 @@ template = '''
         function hideSplash() {
             document.getElementById('splash').style.display = 'none';
             document.getElementById('main-content').style.display = 'block';
+            // Mostrar la sección de mejor vendedor después del splash
+            var mejorVendedor = document.getElementById('mejor-vendedor');
+            if(mejorVendedor) mejorVendedor.style.display = 'block';
             // Guardar en localStorage que ya se mostró el splash
             localStorage.setItem('splashShown', '1');
         }
@@ -249,6 +252,19 @@ template = '''
                 </div>
             </div>
             <div style="display:flex; justify-content:center; align-items:stretch; margin-bottom:22px; gap:18px;">
+        <!-- MODAL DE COMENTARIOS -->
+        <div id="comentarios-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:3000; align-items:center; justify-content:center;">
+            <div style="background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:40px 38px; min-width:400px; max-width:600px; width:90vw; max-height:90vh; overflow:auto; position:relative;">
+                <span id="comentarios-modal-close" style="position:absolute; top:12px; right:18px; font-size:1.7em; color:#888; cursor:pointer;">&times;</span>
+                <form id="comentario-form">
+                    <div style="font-size:1.2em; color:#0d47a1; font-weight:bold; margin-bottom:12px;">Deja tu comentario</div>
+                    <input id="comentario-nombre" type="text" placeholder="Tu nombre" style="width:100%; margin-bottom:10px; padding:8px; border-radius:6px; border:1px solid #bbb; font-size:1em;" required><br>
+                    <textarea id="comentario-texto" placeholder="Escribe tu comentario..." style="width:100%; min-height:80px; margin-bottom:10px; padding:8px; border-radius:6px; border:1px solid #bbb; font-size:1em;" required></textarea><br>
+                    <button type="button" id="comentario-enviar" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; cursor:pointer;">Enviar</button>
+                    <div id="comentario-exito" style="display:none; color:green; margin-top:10px;">¡Comentario enviado!</div>
+                </form>
+            </div>
+        </div>
                 <div style="display:inline-block; background:#fff; color:#0d47a1; border-radius:14px; padding:14px 24px; box-shadow:0 1px 6px #bbb; max-width:600px; flex:1;">
                     <div style="font-size:1.2em; font-weight:bold; margin-bottom:6px;">¿Qué es el Ranking DIS?</div>
                     <div style="font-size:1em;">
@@ -258,41 +274,13 @@ template = '''
                 </div>
                 <div style="position:relative; display:flex; flex-direction:column; align-items:end; margin-left:auto; gap:10px;">
                     <div style="display:flex; gap:10px; align-items:end;">
-                        <div style="position:relative; display:inline-block; vertical-align:top;">
-                            <div id="equipos-btn" style="background:#0d47a1; color:#fff; border-radius:12px; padding:12px 24px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Equipos</div>
-                            <div id="equipos-dropdown" style="display:none; position:absolute; top:100%; left:0; background:#fff; border-radius:10px; box-shadow:0 2px 12px #888; min-width:180px; z-index:10;">
-                                {% for grupo in puntos.keys() %}
-                                <div class="equipo-item" data-equipo="{{ grupo }}" style="padding:10px 18px; cursor:pointer; border-bottom:1px solid #eee; display:flex; align-items:center; gap:8px;">
-                                    <img src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" style="width:28px; height:28px; object-fit:contain; border-radius:50%; background:#fff; border:1px solid #ccc;" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};">
-                                    <span style="color:#0d47a1; font-weight:bold;">{{ grupo }}</span>
-                                </div>
-                                {% endfor %}
-                            </div>
-                        </div>
+                        <div id="equipos-btn" style="background:#0d47a1; color:#fff; border-radius:12px; padding:12px 24px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Equipos</div>
                         <button id="comentarios-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb;">Comentarios</button>
                     </div>
-                    </div>
-                    <div id="comentarios-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:1000; align-items:center; justify-content:center;">
-                        <div style="background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px; min-width:320px; max-width:90vw; max-height:90vh; overflow:auto; position:relative;">
-                            <span id="comentarios-modal-close" style="position:absolute; top:12px; right:18px; font-size:1.7em; color:#888; cursor:pointer;">&times;</span>
-                            <h2 style="color:#0d47a1; text-align:center;">Enviar comentario</h2>
-                            <form id="comentario-form" style="display:flex; flex-direction:column; gap:12px; margin-top:18px;" onsubmit="return false;">
-                                <input type="text" id="comentario-nombre" name="nombre" placeholder="Tu nombre" required style="padding:8px; border-radius:8px; border:1px solid #bbb;">
-                                   <input type="email" id="comentario-email" name="email" placeholder="Tu correo (opcional)" style="padding:8px; border-radius:8px; border:1px solid #bbb;">
-                                <textarea id="comentario-texto" name="comentario" placeholder="Escribe tu comentario aquí..." required style="padding:8px; border-radius:8px; border:1px solid #bbb; min-height:80px;"></textarea>
-                                <button type="button" id="comentario-enviar" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 0; font-weight:bold;">Enviar</button>
-                                <div id="comentario-exito" style="display:none; color:green; text-align:center;">¡Comentario enviado!</div>
-                            </form>
-                        </div>
-                    </div>
                 </div>
             </div>
-            <div id="equipo-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:1000; align-items:center; justify-content:center;">
-                <div id="equipo-modal-content" style="background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px; min-width:320px; max-width:90vw; max-height:90vh; overflow:auto; position:relative;">
-                    <span id="equipo-modal-close" style="position:absolute; top:12px; right:18px; font-size:1.7em; color:#888; cursor:pointer;">&times;</span>
-                    <div id="equipo-modal-body"></div>
-                </div>
-            </div>
+
+
             <div class="grupos-flex">
             {% set max_puntos = puntos.values()|max %}
             {% for grupo, punto in puntos.items() %}
@@ -339,32 +327,126 @@ template = '''
             </div>
             <p style="text-align:center;color:#888;">Actualiza cada 60 segundos</p>
         </div>
-        <!-- NUEVO: Mejor Vendedor de la semana -->
-        <div class="container" style="margin-top: 30px; margin-bottom: 30px; background: #f8fafc; border-radius: 16px; box-shadow: 0 2px 12px #cce; padding: 28px 18px; max-width: 700px;">
-            <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">🏆 Mejor Vendedor de la semana</h2>
-            {% set puntos_individuales = {} %}
-            {% for correo, grupo in personas.items() %}
-                {% set _ = puntos_individuales.update({correo: puntos_mp.get(grupo, 0) + puntos.get(grupo, 0)}) %}
-            {% endfor %}
-            {% set top3 = puntos_individuales.items()|sort(attribute=1, reverse=True) %}
-            <div style="display:flex; justify-content:center; gap:32px; align-items:flex-end;">
-                {% for correo, puntos_total in top3[:3] %}
-                    {% set nombre = correos_a_nombres.get(correo, correo) %}
-                    <div style="background:#fff; border-radius:16px; box-shadow:0 2px 10px #bbb; padding:18px 24px; min-width:160px; text-align:center; position:relative;">
-                        {% if loop.index == 1 %}
-                            <div style="font-size:2.2em; color:gold; position:absolute; top:-32px; left:50%; transform:translateX(-50%);">🥇</div>
-                        {% elif loop.index == 2 %}
-                            <div style="font-size:2em; color:#b0b0b0; position:absolute; top:-28px; left:50%; transform:translateX(-50%);">🥈</div>
-                        {% elif loop.index == 3 %}
-                            <div style="font-size:1.8em; color:#cd7f32; position:absolute; top:-24px; left:50%; transform:translateX(-50%);">🥉</div>
+        <!-- NUEVO: Mejor Vendedor de la semana (dentro de main-content) -->
+        </div> <!-- Cierre de main-content -->
+
+<!-- Nueva sección de equipos tipo página interna (fuera de main-content) -->
+<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:2000; overflow:auto;">
+    <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
+        <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
+        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
+        <div class="grupos-flex">
+        {% set max_puntos = puntos.values()|max %}
+        {% for grupo, punto in puntos.items() %}
+            <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
+                <div class="grupo-nombre">
+                    <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
+                    <b>{{ grupo }}</b>
+                </div>
+                <div class="personas">
+                    {% set miembros = personas_ordenadas(grupo) %}
+                    {% for correo in miembros %}
+                        {% set nombre = correos_a_nombres.get(correo, correo) %}
+                        {% if loop.index0 == 0 %}
+                            <span class="destacado">{{ nombre }}</span><br>
+                        {% else %}
+                            {{ nombre }}<br>
                         {% endif %}
-                        <div style="font-size:1.25em; font-weight:bold; color:#0d47a1; margin-bottom:8px;">{{ nombre }}</div>
-                        <div style="font-size:1.1em; color:#444;">Puntos: <b>{{ puntos_total }}</b></div>
-                        <div style="font-size:0.95em; color:#888; margin-top:6px;">{{ personas.get(correo, correo) }}</div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
+        {% endfor %}
         </div>
+    </div>
+</div>
+
+
+<!-- ÚNICA sección de equipos tipo página interna (fuera de main-content) -->
+<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:2000; overflow:auto;">
+    <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
+        <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
+        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
+        <div class="grupos-flex">
+        {% set max_puntos = puntos.values()|max %}
+        {% for grupo, punto in puntos.items() %}
+            <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
+                <div class="grupo-nombre">
+                    <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
+                    <b>{{ grupo }}</b>
+                </div>
+                <div class="personas">
+                    {% set miembros = personas_ordenadas(grupo) %}
+                    {% for correo in miembros %}
+                        {% set nombre = correos_a_nombres.get(correo, correo) %}
+                        {% if loop.index0 == 0 %}
+                            <span class="destacado">{{ nombre }}</span><br>
+                        {% else %}
+                            {{ nombre }}<br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
+    <!-- Título fuera del recuadro blanco -->
+<!-- Recuadro blanco unificado para el título y el ranking -->
+<div id="mejor-vendedor" class="container" style="max-width: 700px; margin: 0 auto; margin-top: 30px; margin-bottom: 30px; background: #f8fafc; border-radius: 16px; box-shadow: 0 2px 12px #cce; padding: 28px 18px;">
+    <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-top:0; margin-bottom:38px; letter-spacing:1px;">🏆 Mejor Vendedor de la semana</h2>
+    {% set puntos_individuales = {} %}
+    {% for correo, grupo in personas.items() %}
+        {% set _ = puntos_individuales.update({correo: puntos_mp.get(grupo, 0) + puntos.get(grupo, 0)}) %}
+    {% endfor %}
+    {% set top3 = puntos_individuales.items()|sort(attribute=1, reverse=True) %}
+    <div style="display:flex; justify-content:center; gap:32px; align-items:flex-end;">
+        {% for correo, puntos_total in top3[:3] %}
+            {% set nombre = correos_a_nombres.get(correo, correo) %}
+            <div style="background:#fff; border-radius:16px; box-shadow:0 2px 10px #bbb; padding:18px 24px; min-width:160px; text-align:center; position:relative;">
+                {% if loop.index == 1 %}
+                    <div style="font-size:2.2em; color:gold; position:absolute; top:-32px; left:50%; transform:translateX(-50%);">🥇</div>
+                {% elif loop.index == 2 %}
+                    <div style="font-size:2em; color:#b0b0b0; position:absolute; top:-28px; left:50%; transform:translateX(-50%);">🥈</div>
+                {% elif loop.index == 3 %}
+                    <div style="font-size:1.8em; color:#cd7f32; position:absolute; top:-24px; left:50%; transform:translateX(-50%);">🥉</div>
+                {% endif %}
+                <div style="font-size:1.25em; font-weight:bold; color:#0d47a1; margin-bottom:8px;">{{ nombre }}</div>
+                <div style="font-size:1.1em; color:#444;">Puntos: <b>{{ puntos_total }}</b></div>
+                <div style="font-size:0.95em; color:#888; margin-top:6px;">{{ personas.get(correo, correo) }}</div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Nueva sección de equipos tipo página interna (fuera de main-content) -->
+<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:2000; overflow:auto;">
+    <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
+        <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
+        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
+        <div class="grupos-flex">
+        {% set max_puntos = puntos.values()|max %}
+        {% for grupo, punto in puntos.items() %}
+            <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
+                <div class="grupo-nombre">
+                    <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
+                    <b>{{ grupo }}</b>
+                </div>
+                <div class="personas">
+                    {% set miembros = personas_ordenadas(grupo) %}
+                    {% for correo in miembros %}
+                        {% set nombre = correos_a_nombres.get(correo, correo) %}
+                        {% if loop.index0 == 0 %}
+                            <span class="destacado">{{ nombre }}</span><br>
+                        {% else %}
+                            {{ nombre }}<br>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
     </div>
     <script>
         // Comentarios modal
@@ -394,69 +476,24 @@ template = '''
                     }
                 });
             };
-        });
-document.addEventListener('DOMContentLoaded', function() {
-    const equiposBtn = document.getElementById('equipos-btn');
-    const equiposDropdown = document.getElementById('equipos-dropdown');
-    const equipoModal = document.getElementById('equipo-modal');
-    const equipoModalBody = document.getElementById('equipo-modal-body');
-    const equipoModalClose = document.getElementById('equipo-modal-close');
-    equiposBtn.addEventListener('mouseenter', () => { equiposDropdown.style.display = 'block'; });
-    equiposBtn.addEventListener('mouseleave', () => { setTimeout(()=>{ if(!equiposDropdown.matches(':hover')) equiposDropdown.style.display='none'; }, 200); });
-    equiposDropdown.addEventListener('mouseleave', () => { equiposDropdown.style.display = 'none'; });
-    equiposDropdown.addEventListener('mouseenter', () => { equiposDropdown.style.display = 'block'; });
-    document.querySelectorAll('.equipo-item').forEach(item => {
-        item.addEventListener('click', function() {
-            const equipo = this.getAttribute('data-equipo');
-            mostrarEquipoModal(equipo);
-            equiposDropdown.style.display = 'none';
-        });
-    });
-    equipoModalClose.onclick = () => { equipoModal.style.display = 'none'; };
-    equipoModal.onclick = (e) => { if(e.target === equipoModal) equipoModal.style.display = 'none'; };
-    function mostrarEquipoModal(equipo) {
-        const personasData = {{ personas|tojson }};
-        const nombresData = {{ correos_a_nombres|tojson }};
-        // Identificar el correo del destacado
-        const destacados = {
-            "Tiburones": "paolaandrea.hernandez@decathlon.com",
-            "Elefantes": "nerea.castillo@decathlon.com",
-            "Dragones": "visitacion.lopez@decathlon.com",
-            "Escorpiones": "joanjosep.delapena@decathlon.com"
-        };
-        let integrantes = Object.entries(personasData).filter(([correo, grupo]) => grupo === equipo).map(([correo]) => correo);
-        const destacadoCorreo = destacados[equipo];
-        // Mover el destacado al principio si existe
-        if(destacadoCorreo) {
-            const idx = integrantes.indexOf(destacadoCorreo);
-            if(idx > -1) {
-                integrantes.splice(idx,1);
-                integrantes = [destacadoCorreo, ...integrantes];
+            // Nueva lógica para equipos como página interna
+            const equiposBtn = document.getElementById('equipos-btn');
+            const equiposPage = document.getElementById('equipos-page');
+            const mainContent = document.getElementById('main-content');
+            const equiposVolver = document.getElementById('equipos-volver');
+            if(equiposBtn && equiposPage && mainContent) {
+                equiposBtn.onclick = function() {
+                    mainContent.style.display = 'none';
+                    equiposPage.style.display = 'block';
+                };
             }
-        }
-        let integrantesHtml = '';
-        for(let i=0; i<integrantes.length; i++) {
-            const correo = integrantes[i];
-            let nombre = nombresData[correo] || correo;
-            // Corrección manual para Carlos Riquelme
-            if(correo === "carlos.riquelme@decathlon.com") nombre = "Carlos Riquelme";
-            if(i === 0) {
-                integrantesHtml += `<div style='margin-bottom:4px; font-weight:bold; color:#0d47a1;'>${nombre} <span style='color:gold;' title='Destacado'>&#11088;</span></div>`;
-            } else {
-                integrantesHtml += `<div style='margin-bottom:4px;'>${nombre}</div>`;
+            if(equiposVolver && equiposPage && mainContent) {
+                equiposVolver.onclick = function() {
+                    equiposPage.style.display = 'none';
+                    mainContent.style.display = 'block';
+                };
             }
-        }
-        equipoModalBody.innerHTML = `
-            <div style='display:flex; align-items:center; gap:18px; margin-bottom:18px;'>
-                <img src='/static/logos/${equipo.toLowerCase()}.png' alt='Logo ${equipo}' style='width:60px; height:60px; object-fit:contain; border-radius:50%; background:#fff; border:1px solid #ccc;' onerror="this.onerror=null;this.src='/static/logos/${equipo.toLowerCase()}.jpg';this.onerror=function(){this.src='/static/logos/${equipo.toLowerCase()}.jpeg';this.onerror=null;};">
-                <div style='font-size:1.5em; color:#0d47a1; font-weight:bold;'>${equipo}</div>
-            </div>
-            <div style='font-size:1.1em; color:#0d47a1; font-weight:bold; margin-bottom:8px;'>Integrantes:</div>
-            <div>${integrantesHtml}</div>
-        `;
-        equipoModal.style.display = 'flex';
-    }
-});
+        });
 </script>
 </body>
 </html>
