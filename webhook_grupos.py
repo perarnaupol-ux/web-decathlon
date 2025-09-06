@@ -522,23 +522,30 @@ def webhook():
     print('Webhook recibido:', data)  # <-- Esto mostrará el JSON recibido en la consola
     user_email = data.get("user", {}).get("email", "")
     text = data.get("text", "")
+    print(f"Email recibido: {user_email}")
+    print(f"Texto recibido: {text}")
     respuesta = "Mensaje recibido."
     hoy = datetime.now()
     inicio = datetime(hoy.year, 9, 1)
+    persona_encontrada = buscar_persona(user_email)
+    print(f"Persona encontrada: {persona_encontrada}")
     if hoy < inicio:
         respuesta = "La competición empieza el 01/09. Los puntos aún no se pueden sumar."
     else:
-        persona_encontrada = buscar_persona(user_email)
         if "+1 mp" in text.lower() and persona_encontrada:
             equipo = personas[persona_encontrada]
             puntos_mp[equipo] += 1
             guardar_puntos_mp()
             respuesta = f"¡Punto MP para {equipo}! Total: {puntos_mp[equipo]}"
+            print(f"Sumado punto MP a {equipo}. Total: {puntos_mp[equipo]}")
         elif "+1" in text.lower() and persona_encontrada:
             equipo = personas[persona_encontrada]
             puntos[equipo] += 1
             guardar_puntos()
             respuesta = f"¡Punto para {equipo}! Total: {puntos[equipo]}"
+            print(f"Sumado punto a {equipo}. Total: {puntos[equipo]}")
+        else:
+            print("No se sumó punto: condición no cumplida o persona no encontrada.")
     return jsonify({"text": respuesta})
 
 import smtplib
