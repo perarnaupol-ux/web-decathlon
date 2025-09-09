@@ -192,15 +192,15 @@ template = '''
             opacity: 0.45;
             z-index: -1;
         }
-        .container { max-width: 1200px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
+    .container { max-width: 1200px; margin: 40px auto; background: #fff; padding: 20px; border-radius: 8px; box-shadow: 0 0 10px #ccc; }
         .grupos-flex { display: flex; flex-wrap: wrap; justify-content: space-around; }
-        .grupo { flex: 1 1 250px; min-width: 250px; max-width: 300px; margin: 10px; background: #e9f5ff; border-radius: 8px; padding: 15px; box-shadow: 0 0 5px #bbb; position: relative; }
+    .grupo { flex: 1 1 250px; min-width: 250px; max-width: 300px; margin: 10px; background: #e9f5ff; border-radius: 8px; padding: 15px; box-shadow: 0 0 5px #bbb; position: relative; }
         .grupo-lider { border: 3px solid gold; box-shadow: 0 0 18px #ffd700; }
-        .grupo-nombre { font-size: 1.3em; color: #333; margin-bottom: 5px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .grupo-logo { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #fff; border: 1px solid #ccc; margin-right: 4px; }
-        .personas { margin-left: 10px; color: #555; text-align: left; }
-        .destacado { font-size: 1.15em; font-weight: bold; color: #1a237e; }
-        .separador { border-top: 2px solid #aaa; margin: 30px 0 20px 0; }
+    .grupo-nombre { font-size: 1.3em; color: #333; margin-bottom: 5px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .grupo-logo { width: 36px; height: 36px; object-fit: contain; border-radius: 50%; background: #fff; border: 1px solid #ccc; margin-right: 4px; }
+    .personas { margin-left: 10px; color: #555; text-align: left; }
+    .destacado { font-size: 1.15em; font-weight: bold; color: #1a237e; }
+    .separador { border-top: 2px solid #aaa; margin: 30px 0 20px 0; }
         .splash { display: flex; align-items: center; justify-content: center; height: 90vh; }
         .splash img { max-width: 80vw; max-height: 80vh; border-radius: 16px; box-shadow: 0 0 20px #888; }
         @media (max-width: 900px) {
@@ -231,13 +231,90 @@ template = '''
                 hideSplash();
             }
         };
-    </script>
+</script>
+<!-- MOVER EL SCRIPT UNIFICADO AL FINAL DEL BODY PARA ASEGURAR QUE TODOS LOS ELEMENTOS EXISTEN -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Semana actual
+    var hoy = new Date();
+    var lunes = getMonday(hoy);
+    var domingo = getSunday(hoy);
+    document.getElementById('semana-actual').textContent = `Semana actual: ${formatDate(lunes)} - ${formatDate(domingo)}`;
+
+    // --- ACTUALIZACIÓN DE PUNTOS DESDE GOOGLE SHEETS ---
+    updateSheetMarkers();
+    setInterval(updateSheetMarkers, 30000);
+
+    // --- TOP 3 MEJOR VENDEDOR DE LA SEMANA DESDE SHEETS ---
+    fetchSheetTop3();
+    setInterval(fetchSheetTop3, 30000);
+
+    // Comentarios modal y páginas internas
+    const comentariosBtn = document.getElementById('comentarios-btn');
+    const comentariosModal = document.getElementById('comentarios-modal');
+    const comentariosModalClose = document.getElementById('comentarios-modal-close');
+    const comentarioForm = document.getElementById('comentario-form');
+    const comentarioExito = document.getElementById('comentario-exito');
+    const comentarioEnviar = document.getElementById('comentario-enviar');
+    if(comentariosBtn) comentariosBtn.onclick = () => { comentariosModal.style.display = 'flex'; };
+    if(comentariosModalClose) comentariosModalClose.onclick = () => { comentariosModal.style.display = 'none'; };
+    if(comentariosModal) comentariosModal.onclick = (e) => { if(e.target === comentariosModal) comentariosModal.style.display = 'none'; };
+    if(comentarioEnviar) comentarioEnviar.onclick = function(e) {
+        const nombre = document.getElementById('comentario-nombre').value;
+        const comentario = document.getElementById('comentario-texto').value;
+        if (!nombre.trim() || !comentario.trim()) return;
+        fetch('/comentario', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, comentario })
+        }).then(r => r.json()).then(data => {
+            if(data.ok) {
+                comentarioExito.style.display = 'block';
+                comentarioForm.reset();
+                setTimeout(()=>{comentariosModal.style.display='none'; comentarioExito.style.display='none';}, 1500);
+            }
+        });
+    };
+    // Nueva lógica para equipos y reglas como páginas internas
+    const equiposBtn = document.getElementById('equipos-btn');
+    const equiposPage = document.getElementById('equipos-page');
+    const mainContent = document.getElementById('main-content');
+    const equiposVolver = document.getElementById('equipos-volver');
+    const reglasBtn = document.getElementById('reglas-btn');
+    const reglasPage = document.getElementById('reglas-page');
+    const reglasVolver = document.getElementById('reglas-volver');
+    if(equiposBtn && equiposPage && mainContent) {
+        equiposBtn.onclick = function() {
+            mainContent.style.display = 'none';
+            equiposPage.style.display = 'block';
+        };
+    }
+    if(equiposVolver && equiposPage && mainContent) {
+        equiposVolver.onclick = function() {
+            equiposPage.style.display = 'none';
+            mainContent.style.display = 'block';
+        };
+    }
+    if(reglasBtn && reglasPage && mainContent) {
+        reglasBtn.onclick = function() {
+            mainContent.style.display = 'none';
+            reglasPage.style.display = 'block';
+        };
+    }
+    if(reglasVolver && reglasPage && mainContent) {
+        reglasVolver.onclick = function() {
+            reglasPage.style.display = 'none';
+            mainContent.style.display = 'block';
+        };
+    }
+});
+</script>
 </head>
 <body>
     <div id="splash" class="splash">
         <img src="/static/fotos/decathlon1.jpg" alt="Decathlon" />
     </div>
-    <div id="main-content" style="display:none;">
+    <div id="main-content" style="display:block;">
         <div class="container">
             <div style="width:100%; display:flex; flex-direction:row; align-items:center; justify-content:space-between; margin-bottom: 18px; gap: 0;">
                 <div style="flex:0 0 auto; display:flex; align-items:center;">
@@ -253,7 +330,7 @@ template = '''
             </div>
             <div style="display:flex; justify-content:center; align-items:stretch; margin-bottom:22px; gap:18px;">
         <!-- MODAL DE COMENTARIOS -->
-        <div id="comentarios-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:3000; align-items:center; justify-content:center;">
+    <div id="comentarios-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.35); z-index:10000; align-items:center; justify-content:center;">
             <div style="background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:40px 38px; min-width:400px; max-width:600px; width:90vw; max-height:90vh; overflow:auto; position:relative;">
                 <span id="comentarios-modal-close" style="position:absolute; top:12px; right:18px; font-size:1.7em; color:#888; cursor:pointer;">&times;</span>
                 <form id="comentario-form">
@@ -274,25 +351,101 @@ template = '''
                 </div>
                 <div style="position:relative; display:flex; flex-direction:column; align-items:end; margin-left:auto; gap:10px;">
                     <div style="display:flex; gap:10px; align-items:end;">
-                        <div id="equipos-btn" style="background:#0d47a1; color:#fff; border-radius:12px; padding:12px 24px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Equipos</div>
-                        <button id="comentarios-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb;">Comentarios</button>
+                    <div id="equipos-btn" style="background:#0d47a1; color:#fff; border-radius:12px; padding:12px 24px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Equipos</div>
+                    <div id="reglas-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Reglas</div>
+                    <button id="comentarios-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb;">Comentarios</button>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Equipos overlay
+    const equiposBtn = document.getElementById('equipos-btn');
+    const equiposPage = document.getElementById('equipos-page');
+    const mainContent = document.getElementById('main-content');
+    const equiposVolver = document.getElementById('equipos-volver');
+    if(equiposBtn && equiposPage && mainContent) {
+        equiposBtn.onclick = function() {
+            mainContent.style.display = 'none';
+            equiposPage.style.display = 'block';
+        };
+    }
+    if(equiposVolver && equiposPage && mainContent) {
+        equiposVolver.onclick = function() {
+            equiposPage.style.display = 'none';
+            mainContent.style.display = 'block';
+        };
+    }
+    // Reglas overlay
+    const reglasBtn = document.getElementById('reglas-btn');
+    const reglasPage = document.getElementById('reglas-page');
+    const reglasVolver = document.getElementById('reglas-volver');
+    if(reglasBtn && reglasPage && mainContent) {
+        reglasBtn.onclick = function() {
+            mainContent.style.display = 'none';
+            reglasPage.style.display = 'block';
+        };
+    }
+    if(reglasVolver && reglasPage && mainContent) {
+        reglasVolver.onclick = function() {
+            reglasPage.style.display = 'none';
+            mainContent.style.display = 'block';
+        };
+    }
+    // Comentarios modal
+    const comentariosBtn = document.getElementById('comentarios-btn');
+    const comentariosModal = document.getElementById('comentarios-modal');
+    const comentariosModalClose = document.getElementById('comentarios-modal-close');
+    const comentarioForm = document.getElementById('comentario-form');
+    const comentarioExito = document.getElementById('comentario-exito');
+    const comentarioEnviar = document.getElementById('comentario-enviar');
+    if(comentariosBtn) comentariosBtn.onclick = () => { comentariosModal.style.display = 'flex'; };
+    if(comentariosModalClose) comentariosModalClose.onclick = () => { comentariosModal.style.display = 'none'; };
+    if(comentariosModal) comentariosModal.onclick = (e) => { if(e.target === comentariosModal) comentariosModal.style.display = 'none'; };
+    if(comentarioEnviar) comentarioEnviar.onclick = function(e) {
+        const nombre = document.getElementById('comentario-nombre').value;
+        const comentario = document.getElementById('comentario-texto').value;
+        if (!nombre.trim() || !comentario.trim()) return;
+        fetch('/comentario', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ nombre, comentario })
+        }).then(r => r.json()).then(data => {
+            if(data.ok) {
+                comentarioExito.style.display = 'block';
+                comentarioForm.reset();
+                setTimeout(()=>{comentariosModal.style.display='none'; comentarioExito.style.display='none';}, 1500);
+            }
+        });
+    };
+});
+</script>
                     </div>
                 </div>
             </div>
 
 
+            <div style="text-align:left; margin-bottom: 18px;">
+                <h2 style="background:#fff; display:inline-block; padding:10px 32px; border-radius:14px; box-shadow:0 1px 6px #bbb; color:#0d47a1; font-weight:bold; margin-bottom:0;">RANKING DIS</h2>
+            </div>
             <div class="grupos-flex">
             {% set max_puntos = puntos.values()|max %}
             {% for grupo, punto in puntos.items() %}
                 <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
                     <div class="grupo-nombre">
                         <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
-                        <b>{{ grupo }}:</b> {{ punto }}
+                        <b>{{ grupo }}:</b> <span class="puntos-sheet" id="puntos-{{ grupo|lower }}">{{ punto }}</span>
                         {% if punto == max_puntos and punto > 0 %}
                             <span title="Líder" style="margin-left:6px; color:gold; font-size:1.2em;">&#x1F451;</span>
                         {% endif %}
                     </div>
                     <div class="personas">
+                        {% if grupo == 'Tiburones' %}
+                        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=0&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% elif grupo == 'Elefantes' %}
+                        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=1293296063&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% elif grupo == 'Dragones' %}
+                        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=1688768477&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% elif grupo == 'Escorpiones' %}
+                        <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=1184540154&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% else %}
                         {% set miembros = personas_ordenadas(grupo) %}
                         {% for correo in miembros %}
                             {% set nombre = correos_a_nombres.get(correo, correo) %}
@@ -302,6 +455,7 @@ template = '''
                                 {{ nombre }}<br>
                             {% endif %}
                         {% endfor %}
+                        {% endif %}
                     </div>
                 </div>
             {% endfor %}
@@ -317,109 +471,126 @@ template = '''
                 <div class="grupo{% if punto == max_puntos_mp and punto > 0 %} grupo-lider{% endif %}">
                     <div class="grupo-nombre">
                         <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
-                        <b>{{ grupo }}:</b> {{ punto }}
+                        <b>{{ grupo }}:</b> <span class="puntos-sheet-mp" id="puntos-mp-{{ grupo|lower }}">{{ punto }}</span>
                         {% if punto == max_puntos_mp and punto > 0 %}
                             <span title="Líder" style="margin-left:6px; color:gold; font-size:1.2em;">&#x1F451;</span>
+                        {% endif %}
+                    </div>
+                    <div class="personas">
+                        {% if grupo == 'Tiburones' %}
+                            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=173709943&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% elif grupo == 'Elefantes' %}
+                            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=5098505&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% elif grupo == 'Dragones' %}
+                            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=821443630&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% elif grupo == 'Escorpiones' %}
+                            <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU/pubhtml?gid=1046049454&single=true" width="260" height="320" style="border:1px solid #ccc; border-radius:8px; background:#fff;"></iframe>
+                        {% else %}
+                        {% set miembros = personas_ordenadas(grupo) %}
+                        {% for correo in miembros %}
+                            {% set nombre = correos_a_nombres.get(correo, correo) %}
+                            {% if loop.index0 == 0 %}
+                                <span class="destacado">{{ nombre }}</span><br>
+                            {% else %}
+                                {{ nombre }}<br>
+                            {% endif %}
+                        {% endfor %}
                         {% endif %}
                     </div>
                 </div>
             {% endfor %}
             </div>
             <p style="text-align:center;color:#888;">Actualiza cada 60 segundos</p>
+
         </div>
         <!-- NUEVO: Mejor Vendedor de la semana (dentro de main-content) -->
         </div> <!-- Cierre de main-content -->
 
 <!-- Nueva sección de equipos tipo página interna (fuera de main-content) -->
-<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:2000; overflow:auto;">
-    <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
-        <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
-        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
-        <div class="grupos-flex">
-        {% set max_puntos = puntos.values()|max %}
-        {% for grupo, punto in puntos.items() %}
-            <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
-                <div class="grupo-nombre">
-                    <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
-                    <b>{{ grupo }}</b>
-                </div>
-                <div class="personas">
-                    {% set miembros = personas_ordenadas(grupo) %}
-                    {% for correo in miembros %}
-                        {% set nombre = correos_a_nombres.get(correo, correo) %}
-                        {% if loop.index0 == 0 %}
-                            <span class="destacado">{{ nombre }}</span><br>
-                        {% else %}
-                            {{ nombre }}<br>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        </div>
-    </div>
-</div>
 
 
-<!-- ÚNICA sección de equipos tipo página interna (fuera de main-content) -->
-<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:2000; overflow:auto;">
-    <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
-        <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
-        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
-        <div class="grupos-flex">
-        {% set max_puntos = puntos.values()|max %}
-        {% for grupo, punto in puntos.items() %}
-            <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
-                <div class="grupo-nombre">
-                    <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
-                    <b>{{ grupo }}</b>
-                </div>
-                <div class="personas">
-                    {% set miembros = personas_ordenadas(grupo) %}
-                    {% for correo in miembros %}
-                        {% set nombre = correos_a_nombres.get(correo, correo) %}
-                        {% if loop.index0 == 0 %}
-                            <span class="destacado">{{ nombre }}</span><br>
-                        {% else %}
-                            {{ nombre }}<br>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-            </div>
-        {% endfor %}
-        </div>
-    </div>
-</div>
+<!-- Página interna de Equipos -->
+<!-- Página interna de Reglas -->
     <!-- Título fuera del recuadro blanco -->
 <!-- Recuadro blanco unificado para el título y el ranking -->
 <div id="mejor-vendedor" class="container" style="max-width: 700px; margin: 0 auto; margin-top: 30px; margin-bottom: 30px; background: #f8fafc; border-radius: 16px; box-shadow: 0 2px 12px #cce; padding: 28px 18px;">
-    <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-top:0; margin-bottom:38px; letter-spacing:1px;">🏆 Mejor Vendedor de la semana</h2>
-    {% set puntos_individuales = {} %}
-    {% for correo, grupo in personas.items() %}
-        {% set _ = puntos_individuales.update({correo: puntos_mp.get(grupo, 0) + puntos.get(grupo, 0)}) %}
-    {% endfor %}
-    {% set top3 = puntos_individuales.items()|sort(attribute=1, reverse=True) %}
-    <div style="display:flex; justify-content:center; gap:32px; align-items:flex-end;">
-        {% for correo, puntos_total in top3[:3] %}
-            {% set nombre = correos_a_nombres.get(correo, correo) %}
-            <div style="background:#fff; border-radius:16px; box-shadow:0 2px 10px #bbb; padding:18px 24px; min-width:160px; text-align:center; position:relative;">
-                {% if loop.index == 1 %}
-                    <div style="font-size:2.2em; color:gold; position:absolute; top:-32px; left:50%; transform:translateX(-50%);">🥇</div>
-                {% elif loop.index == 2 %}
-                    <div style="font-size:2em; color:#b0b0b0; position:absolute; top:-28px; left:50%; transform:translateX(-50%);">🥈</div>
-                {% elif loop.index == 3 %}
-                    <div style="font-size:1.8em; color:#cd7f32; position:absolute; top:-24px; left:50%; transform:translateX(-50%);">🥉</div>
-                {% endif %}
-                <div style="font-size:1.25em; font-weight:bold; color:#0d47a1; margin-bottom:8px;">{{ nombre }}</div>
-                <div style="font-size:1.1em; color:#444;">Puntos: <b>{{ puntos_total }}</b></div>
-                <div style="font-size:0.95em; color:#888; margin-top:6px;">{{ personas.get(correo, correo) }}</div>
-            </div>
-        {% endfor %}
-    </div>
+    <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-top:0; margin-bottom:8px; letter-spacing:1px;">🏆 Mejor Vendedor de la semana</h2>
+    <div id="semana-actual" style="text-align:center; color:#0d47a1; font-size:1.1em; margin-bottom:30px;"></div>
+    <div id="mejor-vendedor-top3" style="display:flex; justify-content:center; gap:32px; align-items:flex-end;"></div>
+    <script>
+    // Mostrar el rango de la semana actual (lunes a domingo)
+    function getMonday(d) {
+        d = new Date(d);
+        var day = d.getDay(), diff = d.getDate() - day + (day === 0 ? -6 : 1); // adjust when day is sunday
+        return new Date(d.setDate(diff));
+    }
+    function getSunday(d) {
+        d = new Date(d);
+        var day = d.getDay(), diff = d.getDate() - day + 7;
+        return new Date(d.setDate(diff));
+    }
+    function formatDate(d) {
+        return d.toLocaleDateString('es-ES', { day: '2-digit', month: '2-digit', year: 'numeric' });
+    }
+
+    // Unificar todos los scripts en un solo DOMContentLoaded al final del archivo
+    </script>
+    <script>
+    // --- TOP 3 MEJOR VENDEDOR DE LA SEMANA DESDE SHEETS ---
+    const top3SheetsConfig = [
+        { gid: '0', range: { name: {row:1, col:0, len:19}, pts: {row:1, col:1, len:19} } }, // hoja1 A2:A20, B2:B20
+        { gid: '1293296063', range: { name: {row:1, col:0, len:17}, pts: {row:1, col:1, len:17} } }, // hoja2 A2:A18, B2:B18
+        { gid: '1688768477', range: { name: {row:1, col:0, len:17}, pts: {row:1, col:1, len:17} } }, // hoja3 A2:A18, B2:B18
+        { gid: '1184540154', range: { name: {row:1, col:0, len:14}, pts: {row:1, col:1, len:14} } } // hoja4 A2:A15, B2:B15
+    ];
+    const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU';
+    function fetchSheetTop3() {
+        let all = [];
+        let done = 0;
+        top3SheetsConfig.forEach((cfg, idx) => {
+            const url = `https://docs.google.com/spreadsheets/d/${sheetDocId}/gviz/tq?tqx=out:json&gid=${cfg.gid}`;
+            fetch(url)
+                .then(r => r.text())
+                .then(txt => {
+                    const json = JSON.parse(txt.substring(47, txt.length - 2));
+                    const rows = json.table.rows;
+                    for(let i=0; i<cfg.range.name.len; i++) {
+                        const name = rows[cfg.range.name.row + i]?.c[cfg.range.name.col]?.v;
+                        const pts = rows[cfg.range.pts.row + i]?.c[cfg.range.pts.col]?.v;
+                        if(name && pts && !isNaN(pts)) {
+                            all.push({ name, pts: Number(pts) });
+                        }
+                    }
+                })
+                .catch(()=>{})
+                .finally(()=>{
+                    done++;
+                    if(done === top3SheetsConfig.length) renderTop3(all);
+                });
+        });
+    }
+    function renderTop3(all) {
+        all.sort((a,b)=>b.pts-a.pts);
+        const icons = ['🥇','🥈','🥉'];
+        let html = '';
+        for(let i=0; i<3 && i<all.length; i++) {
+            html += `<div style="background:#fff; border-radius:16px; box-shadow:0 2px 10px #bbb; padding:18px 24px; min-width:160px; text-align:center; position:relative;">
+                <div style="font-size:${2.2-0.2*i}em; color:${i===0?'gold':i===1?'#b0b0b0':'#cd7f32'}; position:absolute; top:-${32-4*i}px; left:50%; transform:translateX(-50%);">${icons[i]}</div>
+                <div style="font-size:1.25em; font-weight:bold; color:#0d47a1; margin-bottom:8px;">${all[i].name}</div>
+                <div style="font-size:1.1em; color:#444;">Puntos: <b>${all[i].pts}</b></div>
+            </div>`;
+        }
+        document.getElementById('mejor-vendedor-top3').innerHTML = html;
+    }
+    document.addEventListener('DOMContentLoaded', function() {
+        fetchSheetTop3();
+        setInterval(fetchSheetTop3, 30000);
+    });
+    </script>
 </div>
 
-<!-- Nueva sección de equipos tipo página interna (fuera de main-content) -->
-<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:2000; overflow:auto;">
+<!-- Overlays tipo página interna (fuera de main-content, dentro de <body>) -->
+<div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:10000; overflow:auto;">
     <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
         <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
         <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
@@ -444,56 +615,120 @@ template = '''
                 </div>
             </div>
         {% endfor %}
+        </div>
+    </div>
+</div>
+<div id="reglas-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:10000; overflow:auto;">
+    <div style="max-width:900px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
+        <button id="reglas-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
+        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">REGLAS RANKING DIS / MARKETPLACE</h2>
+        <div style="display:flex; flex-direction:column; gap:18px;">
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">1</div>
+                <div><b>Solo es válido el DIS realizado como venta digital con entrega en tienda o a domicilio.</b> No así una venta digital de entrega para la misma fecha (Click & Collect).</div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">2</div>
+                <div><b>Los DIS enviados fuera del plazo del mismo mes en que se hicieron no suman.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">3</div>
+                <div><b>Las ventas de Marketplace suman doble.</b> El jugador debe avisar que es Marketplace por el chat asignado.</div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">4</div>
+                <div><b>Cualquier irregularidad en el envío de DIS será sancionada.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">5</div>
+                <div><b>Cuando se anuncie el día GOLD, todos los DIS valen doble.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">6</div>
+                <div><b>Semanalmente los jugadores contarán con un resumen de los mejores jugadores de la competencia.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">7</div>
+                <div><b>Cualquier uso indebido del apartado COMENTARIOS será sancionado.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">8</div>
+                <div><b>Los resultados en línea podrán ser visualizados en</b> <a href="https://web-decathlongironadis.onrender.com" target="_blank">https://web-decathlongironadis.onrender.com</a></div>
+            </div>
         </div>
     </div>
 </div>
     </div>
     <script>
-        // Comentarios modal
+        // --- ACTUALIZACIÓN DE PUNTOS DESDE GOOGLE SHEETS ---
+        // Configuración: gid y celda para cada equipo (RANKING DIS)
+        const sheetsConfig = {
+            'tiburones': { gid: '0', cell: 'B21' },
+            'elefantes': { gid: '1293296063', cell: 'B19' },
+            'dragones': { gid: '1688768477', cell: 'B19' },
+            'escorpiones': { gid: '1184540154', cell: 'B16' }
+        };
+        // Configuración: gid y celda para cada equipo (MARKET PLACE)
+        const sheetsConfigMP = {
+            'tiburones': { gid: '173709943', cell: 'B21' },
+            'elefantes': { gid: '5098505', cell: 'B19' },
+            'dragones': { gid: '821443630', cell: 'B19' },
+            'escorpiones': { gid: '1046049454', cell: 'B16' }
+        };
+        // ID del documento
+        const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU';
+        // Helper para convertir celda tipo B21 a índices
+        function cellToIndices(cell) {
+            const col = cell.match(/[A-Z]+/)[0];
+            const row = parseInt(cell.match(/[0-9]+/)[0], 10);
+            let colNum = 0;
+            for (let i = 0; i < col.length; i++) {
+                colNum = colNum * 26 + (col.charCodeAt(i) - 64);
+            }
+            return { row: row - 1, col: colNum - 1 };
+        }
+        // Fetch y actualiza marcador para cada equipo (DIS)
+        function updateSheetMarkers() {
+            Object.entries(sheetsConfig).forEach(([team, cfg]) => {
+                const url = `https://docs.google.com/spreadsheets/d/${sheetDocId}/gviz/tq?tqx=out:json&gid=${cfg.gid}`;
+                fetch(url)
+                    .then(r => r.text())
+                    .then(txt => {
+                        const json = JSON.parse(txt.substring(47, txt.length - 2));
+                        const { row, col } = cellToIndices(cfg.cell);
+                        const value = json.table.rows[row]?.c[col]?.v || '-';
+                        const el = document.getElementById('puntos-' + team);
+                        if (el) el.textContent = value;
+                    })
+                    .catch(() => {
+                        const el = document.getElementById('puntos-' + team);
+                        if (el) el.textContent = '-';
+                    });
+            });
+            // Market Place
+            Object.entries(sheetsConfigMP).forEach(([team, cfg]) => {
+                const url = `https://docs.google.com/spreadsheets/d/${sheetDocId}/gviz/tq?tqx=out:json&gid=${cfg.gid}`;
+                fetch(url)
+                    .then(r => r.text())
+                    .then(txt => {
+                        const json = JSON.parse(txt.substring(47, txt.length - 2));
+                        const { row, col } = cellToIndices(cfg.cell);
+                        const value = json.table.rows[row]?.c[col]?.v || '-';
+                        const el = document.getElementById('puntos-mp-' + team);
+                        if (el) el.textContent = value;
+                    })
+                    .catch(() => {
+                        const el = document.getElementById('puntos-mp-' + team);
+                        if (el) el.textContent = '-';
+                    });
+            });
+        }
+        // Actualiza al cargar y cada 30 segundos
         document.addEventListener('DOMContentLoaded', function() {
-            const comentariosBtn = document.getElementById('comentarios-btn');
-            const comentariosModal = document.getElementById('comentarios-modal');
-            const comentariosModalClose = document.getElementById('comentarios-modal-close');
-            const comentarioForm = document.getElementById('comentario-form');
-            const comentarioExito = document.getElementById('comentario-exito');
-            const comentarioEnviar = document.getElementById('comentario-enviar');
-            if(comentariosBtn) comentariosBtn.onclick = () => { comentariosModal.style.display = 'flex'; };
-            if(comentariosModalClose) comentariosModalClose.onclick = () => { comentariosModal.style.display = 'none'; };
-            if(comentariosModal) comentariosModal.onclick = (e) => { if(e.target === comentariosModal) comentariosModal.style.display = 'none'; };
-            if(comentarioEnviar) comentarioEnviar.onclick = function(e) {
-                const nombre = document.getElementById('comentario-nombre').value;
-                const comentario = document.getElementById('comentario-texto').value;
-                if (!nombre.trim() || !comentario.trim()) return;
-                fetch('/comentario', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ nombre, comentario })
-                }).then(r => r.json()).then(data => {
-                    if(data.ok) {
-                        comentarioExito.style.display = 'block';
-                        comentarioForm.reset();
-                        setTimeout(()=>{comentariosModal.style.display='none'; comentarioExito.style.display='none';}, 1500);
-                    }
-                });
-            };
-            // Nueva lógica para equipos como página interna
-            const equiposBtn = document.getElementById('equipos-btn');
-            const equiposPage = document.getElementById('equipos-page');
-            const mainContent = document.getElementById('main-content');
-            const equiposVolver = document.getElementById('equipos-volver');
-            if(equiposBtn && equiposPage && mainContent) {
-                equiposBtn.onclick = function() {
-                    mainContent.style.display = 'none';
-                    equiposPage.style.display = 'block';
-                };
-            }
-            if(equiposVolver && equiposPage && mainContent) {
-                equiposVolver.onclick = function() {
-                    equiposPage.style.display = 'none';
-                    mainContent.style.display = 'block';
-                };
-            }
+            updateSheetMarkers();
+            setInterval(updateSheetMarkers, 30000);
         });
+    // ...el resto del código JS ya unificado al final del archivo...
 </script>
 </body>
 </html>
