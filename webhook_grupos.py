@@ -431,7 +431,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
                     <div class="grupo-nombre">
                         <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
-                        <b>{{ grupo }}:</b> <span class="puntos-sheet" id="puntos-{{ grupo|lower }}">{{ punto }}</span>
+                        <b>{{ grupo }}:</b> <span class="puntos-sheet" id="puntos-{{ grupo|lower }}">-</span>
                         {% if punto == max_puntos and punto > 0 %}
                             <span title="Líder" style="margin-left:6px; color:gold; font-size:1.2em;">&#x1F451;</span>
                         {% endif %}
@@ -471,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div class="grupo{% if punto == max_puntos_mp and punto > 0 %} grupo-lider{% endif %}">
                     <div class="grupo-nombre">
                         <img class="grupo-logo" src="/static/logos/{{ grupo|lower }}.png" alt="Logo {{ grupo }}" onerror="this.onerror=null;this.src='/static/logos/{{ grupo|lower }}.jpg';this.onerror=function(){this.src='/static/logos/{{ grupo|lower }}.jpeg';this.onerror=null;};this.style.display='inline-block'">
-                        <b>{{ grupo }}:</b> <span class="puntos-sheet-mp" id="puntos-mp-{{ grupo|lower }}">{{ punto }}</span>
+                        <b>{{ grupo }}:</b> <span class="puntos-sheet-mp" id="puntos-mp-{{ grupo|lower }}">-</span>
                         {% if punto == max_puntos_mp and punto > 0 %}
                             <span title="Líder" style="margin-left:6px; color:gold; font-size:1.2em;">&#x1F451;</span>
                         {% endif %}
@@ -543,7 +543,7 @@ document.addEventListener('DOMContentLoaded', function() {
         { gid: '1688768477', range: { name: {row:1, col:0, len:17}, pts: {row:1, col:1, len:17} } }, // hoja3 A2:A18, B2:B18
         { gid: '1184540154', range: { name: {row:1, col:0, len:14}, pts: {row:1, col:1, len:14} } } // hoja4 A2:A15, B2:B15
     ];
-    const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU';
+    const sheetDocId = '1U_QTdCZeBivf6cxFwbQZIoqlUbW5BlD5GOqWZXrsNP8';
     function fetchSheetTop3() {
         let all = [];
         let done = 0;
@@ -670,13 +670,13 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         // Configuración: gid y celda para cada equipo (MARKET PLACE)
         const sheetsConfigMP = {
-            'tiburones': { gid: '173709943', cell: 'B21' },
-            'elefantes': { gid: '5098505', cell: 'B19' },
-            'dragones': { gid: '821443630', cell: 'B19' },
-            'escorpiones': { gid: '1046049454', cell: 'B16' }
+            'tiburones': { gid: '173709943', cell: 'B2' },
+            'elefantes': { gid: '5098505', cell: 'B2' },
+            'dragones': { gid: '821443630', cell: 'B2' },
+            'escorpiones': { gid: '1046049454', cell: 'B2' }
         };
         // ID del documento
-        const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU';
+    // const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU'; // Eliminado duplicado, ya está declarado arriba
         // Helper para convertir celda tipo B21 a índices
         function cellToIndices(cell) {
             const col = cell.match(/[A-Z]+/)[0];
@@ -694,13 +694,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch(url)
                     .then(r => r.text())
                     .then(txt => {
-                        const json = JSON.parse(txt.substring(47, txt.length - 2));
-                        const { row, col } = cellToIndices(cfg.cell);
-                        const value = json.table.rows[row]?.c[col]?.v || '-';
-                        const el = document.getElementById('puntos-' + team);
-                        if (el) el.textContent = value;
+                        try {
+                            const json = JSON.parse(txt.substring(47, txt.length - 2));
+                            const { row, col } = cellToIndices(cfg.cell);
+                            const value = json.table.rows[row]?.c[col]?.v || '-';
+                            console.log(`[DIS] Team: ${team}, URL: ${url}, Row: ${row}, Col: ${col}, Value:`, value);
+                            const el = document.getElementById('puntos-' + team);
+                            if (el) el.textContent = value;
+                        } catch (e) {
+                            console.error(`[DIS] Error parsing JSON for team ${team}:`, e);
+                        }
                     })
-                    .catch(() => {
+                    .catch((err) => {
+                        console.error(`[DIS] Fetch error for team ${team}:`, err);
                         const el = document.getElementById('puntos-' + team);
                         if (el) el.textContent = '-';
                     });
@@ -711,13 +717,19 @@ document.addEventListener('DOMContentLoaded', function() {
                 fetch(url)
                     .then(r => r.text())
                     .then(txt => {
-                        const json = JSON.parse(txt.substring(47, txt.length - 2));
-                        const { row, col } = cellToIndices(cfg.cell);
-                        const value = json.table.rows[row]?.c[col]?.v || '-';
-                        const el = document.getElementById('puntos-mp-' + team);
-                        if (el) el.textContent = value;
+                        try {
+                            const json = JSON.parse(txt.substring(47, txt.length - 2));
+                            const { row, col } = cellToIndices(cfg.cell);
+                            const value = json.table.rows[row]?.c[col]?.v || '-';
+                            console.log(`[MP] Team: ${team}, URL: ${url}, Row: ${row}, Col: ${col}, Value:`, value);
+                            const el = document.getElementById('puntos-mp-' + team);
+                            if (el) el.textContent = value;
+                        } catch (e) {
+                            console.error(`[MP] Error parsing JSON for team ${team}:`, e);
+                        }
                     })
-                    .catch(() => {
+                    .catch((err) => {
+                        console.error(`[MP] Fetch error for team ${team}:`, err);
                         const el = document.getElementById('puntos-mp-' + team);
                         if (el) el.textContent = '-';
                     });
