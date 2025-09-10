@@ -655,6 +655,41 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">8</div>
                 <div><b>Los resultados en línea podrán ser visualizados en</b> <a href="https://web-decathlongironadis.onrender.com" target="_blank">https://web-decathlongironadis.onrender.com</a></div>
             </div>
+            <div style="display:flex; justify-content:center; margin-top:32px; margin-bottom:8px;">
+                <img src="/static/logos/reglas.jpeg" alt="Reglas" style="max-width:340px; width:60vw; height:auto; border-radius:14px; box-shadow:0 2px 12px #b0c4de; background:#f8fafc; border:2px solid #0d47a1;" />
+            </div>
+            </div>
+        </div>
+    </div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">2</div>
+                <div><b>Los DIS enviados fuera del plazo del mismo mes en que se hicieron no suman.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">3</div>
+                <div><b>Las ventas de Marketplace suman doble.</b> El jugador debe avisar que es Marketplace por el chat asignado.</div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">4</div>
+                <div><b>Cualquier irregularidad en el envío de DIS será sancionada.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">5</div>
+                <div><b>Cuando se anuncie el día GOLD, todos los DIS valen doble.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">6</div>
+                <div><b>Semanalmente los jugadores contarán con un resumen de los mejores jugadores de la competencia.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">7</div>
+                <div><b>Cualquier uso indebido del apartado COMENTARIOS será sancionado.</b></div>
+            </div>
+            <div style="background:#f8fafc; border-radius:12px; box-shadow:0 1px 6px #bbb; padding:18px 22px; display:flex; align-items:flex-start; gap:18px;">
+                <div style="font-size:2.2em; color:#0d47a1; font-weight:bold; min-width:54px;">8</div>
+                <div><b>Los resultados en línea podrán ser visualizados en</b> <a href="https://web-decathlongironadis.onrender.com" target="_blank">https://web-decathlongironadis.onrender.com</a></div>
+            </div>
         </div>
     </div>
 </div>
