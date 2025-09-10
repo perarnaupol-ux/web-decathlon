@@ -9,7 +9,6 @@ import json
 from collections import OrderedDict
 
 app = Flask(__name__)
-
 import threading
 import unicodedata
 from datetime import datetime
@@ -180,8 +179,9 @@ template = '''
 <head>
     <meta charset="UTF-8">
     <title>Marcador de Grupos</title>
-    <meta http-equiv="refresh" content="60">
+    <meta http-equiv="refresh" content="300">
     <style>
+    
         body { font-family: Arial, sans-serif; background: #f4f4f4; }
         body::before {
             content: "";
@@ -243,11 +243,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // --- ACTUALIZACIÓN DE PUNTOS DESDE GOOGLE SHEETS ---
     updateSheetMarkers();
-    setInterval(updateSheetMarkers, 30000);
+    setInterval(updateSheetMarkers, 300000);
 
     // --- TOP 3 MEJOR VENDEDOR DE LA SEMANA DESDE SHEETS ---
     fetchSheetTop3();
-    setInterval(fetchSheetTop3, 30000);
+    setInterval(fetchSheetTop3, 300000);
 
     // Comentarios modal y páginas internas
     const comentariosBtn = document.getElementById('comentarios-btn');
@@ -500,7 +500,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 </div>
             {% endfor %}
             </div>
-            <p style="text-align:center;color:#888;">Actualiza cada 60 segundos</p>
+            <p style="text-align:center;color:#888;">Actualiza cada 5 minutos</p>
 
         </div>
         <!-- NUEVO: Mejor Vendedor de la semana (dentro de main-content) -->
@@ -591,10 +591,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- Overlays tipo página interna (fuera de main-content, dentro de <body>) -->
 <div id="equipos-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:#f8fafc; z-index:10000; overflow:auto;">
-    <div style="max-width:1200px; margin:40px auto; background:#fff; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px;">
+    <div style="max-width:1200px; margin:40px auto; background:#fff url('/static/logos/ranking.png') no-repeat center 48px/contain; border-radius:18px; box-shadow:0 4px 24px #888; padding:32px 28px 32px 28px; min-height:600px;">
         <button id="equipos-volver" style="background:#0d47a1; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer;">&larr; Volver</button>
-        <h2 style="color:#0d47a1; text-align:center; font-size:2em; margin-bottom:18px; letter-spacing:1px;">Equipos</h2>
-        <div class="grupos-flex">
+    <div style="height:260px;"></div>
+    <div class="grupos-flex" style="margin-top:70px;">
         {% set max_puntos = puntos.values()|max %}
         {% for grupo, punto in puntos.items() %}
             <div class="grupo{% if punto == max_puntos and punto > 0 %} grupo-lider{% endif %}">
@@ -742,6 +742,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     // ...el resto del código JS ya unificado al final del archivo...
 </script>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+
 </body>
 </html>
 '''
@@ -846,6 +848,7 @@ def admin_comentarios():
         return f"<h2>Comentarios recibidos</h2><pre>{comentarios}</pre>"
     except FileNotFoundError:
         return "No hay comentarios aún."
+
 
 if __name__ == "__main__":
     import os
