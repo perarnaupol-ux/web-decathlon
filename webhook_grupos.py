@@ -671,10 +671,10 @@ document.addEventListener('DOMContentLoaded', function() {
         };
         // Configuración: gid y celda para cada equipo (MARKET PLACE)
         const sheetsConfigMP = {
-            'tiburones': { gid: '173709943', cell: 'B0' },
-            'elefantes': { gid: '5098505', cell: 'B0' },
-            'dragones': { gid: '821443630', cell: 'B0' },
-            'escorpiones': { gid: '1046049454', cell: 'B0' }
+            'tiburones': { gid: '173709943', cell: 'B1' },
+            'elefantes': { gid: '5098505', cell: 'B1' },
+            'dragones': { gid: '821443630', cell: 'B1' },
+            'escorpiones': { gid: '1046049454', cell: 'B1' }
         };
         // ID del documento
     // const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU'; // Eliminado duplicado, ya está declarado arriba
