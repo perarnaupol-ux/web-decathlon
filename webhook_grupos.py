@@ -664,17 +664,17 @@ document.addEventListener('DOMContentLoaded', function() {
         // --- ACTUALIZACIÓN DE PUNTOS DESDE GOOGLE SHEETS ---
         // Configuración: gid y celda para cada equipo (RANKING DIS)
         const sheetsConfig = {
-            'tiburones': { gid: '0', cell: 'B21' },
+            'tiburones': { gid: '0', cell: 'B20' },
             'elefantes': { gid: '1293296063', cell: 'B19' },
             'dragones': { gid: '1688768477', cell: 'B19' },
-            'escorpiones': { gid: '1184540154', cell: 'B16' }
+            'escorpiones': { gid: '1184540154', cell: 'B14' }
         };
         // Configuración: gid y celda para cada equipo (MARKET PLACE)
         const sheetsConfigMP = {
-            'tiburones': { gid: '173709943', cell: 'B2' },
-            'elefantes': { gid: '5098505', cell: 'B2' },
-            'dragones': { gid: '821443630', cell: 'B2' },
-            'escorpiones': { gid: '1046049454', cell: 'B2' }
+            'tiburones': { gid: '173709943', cell: 'B0' },
+            'elefantes': { gid: '5098505', cell: 'B0' },
+            'dragones': { gid: '821443630', cell: 'B0' },
+            'escorpiones': { gid: '1046049454', cell: 'B0' }
         };
         // ID del documento
     // const sheetDocId = '2PACX-1vSK6AMUHAqgBxeHfxanLM1nvir6JDrL2DuSUIHmaq2xQm52snlsbIus-yVd4hz43Mt_UGxUxGDL80QU'; // Eliminado duplicado, ya está declarado arriba
