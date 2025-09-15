@@ -353,7 +353,40 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div style="display:flex; gap:10px; align-items:end;">
                     <div id="equipos-btn" style="background:#0d47a1; color:#fff; border-radius:12px; padding:12px 24px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Equipos</div>
                     <div id="reglas-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb; user-select:none; transition:background 0.2s;">Reglas</div>
+                    <div id="gold-btn" style="background:linear-gradient(90deg,#ffd700,#fffbe7,#ffd700); color:#b8860b; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 12px #ffd70088; user-select:none; transition:background 0.2s; border:2px solid #ffd700;">Día GOLD</div>
                     <button id="comentarios-btn" style="background:#fff; color:#0d47a1; border:2px solid #0d47a1; border-radius:12px; padding:10px 22px; font-weight:bold; cursor:pointer; box-shadow:0 1px 6px #bbb;">Comentarios</button>
+
+</div> <!-- Cierre del bloque de botones y cabecera -->
+
+<!-- Página interna Día GOLD (fuera de la cabecera y container, justo antes de </body>) -->
+<div id="gold-page" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:radial-gradient(circle at 50% 30%, #fffbe7 60%, #ffd700 100%); z-index:20000; overflow:auto; animation: goldbg 2.5s linear infinite alternate;">
+    <div style="max-width:700px; margin:60px auto; background:rgba(255,255,255,0.97); border-radius:22px; box-shadow:0 4px 32px #ffd70088; padding:48px 32px; min-height:400px; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative;">
+        <button id="gold-volver" style="background:#ffd700; color:#fff; border:none; border-radius:8px; padding:10px 24px; font-weight:bold; margin-bottom:18px; cursor:pointer; box-shadow:0 2px 8px #ffd70088; font-size:1.1em;">&larr; Volver</button>
+        <div style="font-size:2.3em; color:#b8860b; font-weight:bold; margin-bottom:24px; letter-spacing:2px; text-shadow:0 2px 12px #ffd700; animation: goldtext 1.5s ease-in-out infinite alternate; text-align:center;">¿Estáis preparados para el día más importante del mes?</div>
+        <div style="font-size:1.5em; color:#0d47a1; margin-bottom:32px; max-width:600px; text-align:center; animation: fadein 2s 1;">
+            ¡En unos días llega el <span style="color:#ffd700; font-weight:bold; text-shadow:0 1px 8px #ffd700;">DÍA GOLD</span>!<br><br>
+            Todos los DIS que realices ese día contarán el doble.<br>
+            <span style="font-size:1.2em; color:#b8860b; font-weight:bold;">¡Prepárate para sumar el máximo de puntos!</span>
+        </div>
+        <div style="width:120px; height:120px; border-radius:50%; background:radial-gradient(circle at 40% 40%, #fffbe7 60%, #ffd700 100%); display:flex; align-items:center; justify-content:center; box-shadow:0 0 40px #ffd700aa; animation: pulsegold 1.5s infinite alternate;">
+            <span style="font-size:3.5em; color:#ffd700; text-shadow:0 2px 12px #b8860b;">⭐</span>
+        </div>
+    </div>
+</div>
+<style>
+@keyframes goldbg {
+    0% { background:radial-gradient(circle at 50% 30%, #fffbe7 60%, #ffd700 100%); }
+    100% { background:radial-gradient(circle at 50% 70%, #fffbe7 60%, #ffd700 100%); }
+}
+@keyframes goldtext {
+    0% { text-shadow:0 2px 12px #ffd700,0 0 0 #fffbe7; }
+    100% { text-shadow:0 2px 32px #ffd700,0 0 16px #fffbe7; }
+}
+@keyframes pulsegold {
+    0% { box-shadow:0 0 40px #ffd700aa, 0 0 0 0 #fffbe7; }
+    100% { box-shadow:0 0 60px #ffd700cc, 0 0 0 30px #fffbe7; }
+}
+</style>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Equipos overlay
@@ -387,6 +420,21 @@ document.addEventListener('DOMContentLoaded', function() {
         reglasVolver.onclick = function() {
             reglasPage.style.display = 'none';
             mainContent.style.display = 'block';
+        };
+    }
+    // GOLD overlay
+    const goldBtn = document.getElementById('gold-btn');
+    const goldPage = document.getElementById('gold-page');
+    const goldVolver = document.getElementById('gold-volver');
+    const mejorVendedor = document.getElementById('mejor-vendedor');
+    if(goldBtn && goldPage) {
+        goldBtn.onclick = function() {
+            goldPage.style.display = 'block';
+        };
+    }
+    if(goldVolver && goldPage) {
+        goldVolver.onclick = function() {
+            goldPage.style.display = 'none';
         };
     }
     // Comentarios modal
