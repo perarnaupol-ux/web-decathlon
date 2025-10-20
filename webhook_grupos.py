@@ -713,7 +713,7 @@ document.addEventListener('DOMContentLoaded', function() {
         // Configuración: gid y celda para cada equipo (RANKING DIS)
         const sheetsConfig = {
             'tiburones': { gid: '0', cell: 'B20' },
-            'elefantes': { gid: '1293296063', cell: 'B19' },
+            'elefantes': { gid: '1293296063', cell: 'B20' },
             'dragones': { gid: '1688768477', cell: 'B19' },
             'escorpiones': { gid: '1184540154', cell: 'B14' }
         };
