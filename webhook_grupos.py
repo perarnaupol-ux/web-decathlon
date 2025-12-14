@@ -712,10 +712,10 @@ document.addEventListener('DOMContentLoaded', function() {
         // --- ACTUALIZACIÓN DE PUNTOS DESDE GOOGLE SHEETS ---
         // Configuración: gid y celda para cada equipo (RANKING DIS)
         const sheetsConfig = {
-            'tiburones': { gid: '0', cell: 'B20' },
-            'elefantes': { gid: '1293296063', cell: 'B20' },
-            'dragones': { gid: '1688768477', cell: 'B19' },
-            'escorpiones': { gid: '1184540154', cell: 'B14' }
+            'tiburones': { gid: '0', cell: 'B21' },
+            'elefantes': { gid: '1293296063', cell: 'B22' },
+            'dragones': { gid: '1688768477', cell: 'B22' },
+            'escorpiones': { gid: '1184540154', cell: 'B21' }
         };
         // Configuración: gid y celda para cada equipo (MARKET PLACE)
         const sheetsConfigMP = {
